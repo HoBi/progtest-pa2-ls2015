@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.1)
-project(task1a)
+project(task_1b_fibonnaci)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 set(SOURCE_FILES main.cpp)
-add_executable(task1a ${SOURCE_FILES})
+add_executable(task_1b_fibonnaci ${SOURCE_FILES})
