@@ -103,7 +103,12 @@ class CRegister
         */
         bool AddCar( const string & rz, const string & name, const string & surname )
         {
-            return false; // todo
+            CCar * car = new CCar( rz, name, surname );
+
+            carsByName.insert( carsByName.end(), car );
+            carsByRZ.insert( carsByRZ.end(), car );
+
+            return true; // todo
         }
 
         /**
@@ -130,19 +135,21 @@ class CRegister
         vector<CCar*>::iterator Find( const string & rz )
         {
             CCar needle = CCar( rz, "", "" );
-            return lower_bound( carsByRZ.begin(), carsByRZ.end(), &needle,
+            vector<CCar*>::iterator result = lower_bound( carsByRZ.begin(), carsByRZ.end(), &needle,
                     [] (CCar *a, CCar *b) -> bool { return a->rz < b->rz; }
             );
+            return ( *result != NULL && (*result)->rz == rz ? result : carsByRZ.end() );
         }
 
         vector<CCar*>::iterator Find( const string & name, const string & surname )
         {
             CCar needle = CCar( "", name, surname );
-            return lower_bound( carsByRZ.begin(), carsByRZ.end(), &needle, [] (CCar *a, const CCar *b)
+            vector<CCar*>::iterator result = lower_bound( carsByName.begin(), carsByName.end(), &needle, [] (CCar *a, CCar *b) -> bool
                 {
-                    return ( a->ownerName + a->ownerSurname ) > ( b->ownerName + b->ownerSurname );
+                    return ( a->ownerName + a->ownerSurname ) < ( b->ownerName + b->ownerSurname );
                 }
             );
+            return ( *result != NULL && (*result)->ownerName == name && (*result)->ownerSurname == surname ? result : carsByName.end() );
         }
 
         /**
@@ -177,9 +184,9 @@ class CRegister
 
             int o = 0;
 
-            for ( vector<CCar*>::iterator i = carField.begin(); i != carField.end(); i++ )
+            for ( CCar * i : carField )
             {
-                cout << " - " << o << ": " << (*i)->rz << " - " << (*i)->ownerName << " " << (*i)->ownerSurname << endl;
+                cout << " - " << o << ": [" << i << "] " << i->rz << ", " << i->ownerName << " " << i->ownerSurname << endl;
                 o++;
             }
         }
@@ -196,17 +203,22 @@ int main ( void )
     CRegister reg;
 
     reg.AddCar( "ABC-12-34", "Marian", "Hlavac" );
-    reg.AddCar( "LOL-66-66", "Michal", "Hubatka" );
+
+
+
+    cout << *(reg.Find("Marian", "Hlavac")) << endl;
+    cout << *(reg.Find("Neexistuju", "Abrakadabra")) << endl;
+
+    reg.AddCar( "LOL-66-66", "Michal", "Hoobatka" );
     reg.AddCar( "ASS-69-69", "Tvoje", "Mama" );
 
     reg.Print( 1 );
     reg.Print( 2 );
 
-    /**
-    *
-    *   Láïovo testíQy
-    *   teï je nechcu
+    cout << *reg.Find( "Michal", "Hoobatka" ) << endl;
+    cout << *reg.Find( "Neexistuju", "Pyco" ) << endl;
 
+/*
     CRegister b1;
     assert ( b1 . AddCar ( "ABC-12-34", "John", "Smith" ) );
     assert ( b1 . AddCar ( "ABC-32-22", "John", "Hacker" ) );
