@@ -19,6 +19,13 @@ using namespace std;
 class CCar
 {
     public:
+        CCar( const string & rz, const string & name, const string & surname )
+        {
+            this->rz = rz;
+            ownerName = name;
+            ownerSurname = surname;
+        }
+
         string rz;
         string ownerName;
         string ownerSurname;
@@ -120,6 +127,24 @@ class CRegister
             return false; //todo
         }
 
+        vector<CCar*>::iterator Find( const string & rz )
+        {
+            CCar needle = CCar( rz, "", "" );
+            return lower_bound( carsByRZ.begin(), carsByRZ.end(), &needle,
+                    [] (CCar *a, CCar *b) -> bool { return a->rz < b->rz; }
+            );
+        }
+
+        vector<CCar*>::iterator Find( const string & name, const string & surname )
+        {
+            CCar needle = CCar( "", name, surname );
+            return lower_bound( carsByRZ.begin(), carsByRZ.end(), &needle, [] (CCar *a, const CCar *b)
+                {
+                    return ( a->ownerName + a->ownerSurname ) > ( b->ownerName + b->ownerSurname );
+                }
+            );
+        }
+
         /**
         * List all cars owned by the specified person
         * @param name person name
@@ -144,6 +169,21 @@ class CRegister
             return -1; // todo
         }
 
+        void Print( int field = 1 )
+        {
+            vector<CCar*> carField = field == 2 ? carsByRZ : carsByName;
+
+            cout << endl << " = REGISTER | field " << field << " | : " << endl;
+
+            int o = 0;
+
+            for ( vector<CCar*>::iterator i = carField.begin(); i != carField.end(); i++ )
+            {
+                cout << " - " << o << ": " << (*i)->rz << " - " << (*i)->ownerName << " " << (*i)->ownerSurname << endl;
+                o++;
+            }
+        }
+
     private:
         vector<CCar*> carsByName;
         vector<CCar*> carsByRZ;
@@ -152,6 +192,21 @@ class CRegister
 #ifndef __PROGTEST__
 int main ( void )
 {
+
+    CRegister reg;
+
+    reg.AddCar( "ABC-12-34", "Marian", "Hlavac" );
+    reg.AddCar( "LOL-66-66", "Michal", "Hubatka" );
+    reg.AddCar( "ASS-69-69", "Tvoje", "Mama" );
+
+    reg.Print( 1 );
+    reg.Print( 2 );
+
+    /**
+    *
+    *   Láïovo testíQy
+    *   teï je nechcu
+
     CRegister b1;
     assert ( b1 . AddCar ( "ABC-12-34", "John", "Smith" ) );
     assert ( b1 . AddCar ( "ABC-32-22", "John", "Hacker" ) );
@@ -222,6 +277,8 @@ int main ( void )
     for ( CCarList l = b2 . ListCars ( "George", "White" ); ! l . AtEnd (); l . Next () )
         cout << l . RZ () << endl;
     // empty output
+
+    */
 
     return 0;
 }
