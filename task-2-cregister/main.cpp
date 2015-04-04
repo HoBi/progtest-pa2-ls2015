@@ -1,11 +1,8 @@
 #ifndef __PROGTEST__
 #include <cassert>
 #include <cstring>
-#include <cstdlib>
-#include <cstdio>
 #include <iostream>
 #include <iomanip>
-#include <string>
 #include <memory>
 #include <vector>
 #include <algorithm>
