@@ -38,35 +38,29 @@ class CCar
 class CCarList
 {
     public:
-        CCarList( void )
-        {
-            iterator = list.begin();
-        }
-
         /**
         * Inserts new item at the end of list
-        * @return iterator
         */
-        vector<CCar*>::iterator Add( CCar* item )
+        void Add( CCar* item )
         {
-            return list.insert( list.end(), item );
+            list.insert( list.end(), item );
         }
 
         /**
         * @return iterated car's RZ
         */
-        string RZ( void ) const
+        string RZ( void )
         {
-            return (*iterator)->rz;
+            return list.at( position )->rz;
         }
 
         /**
         * Tells if we are at the end of the list
         * @return end
         */
-        bool AtEnd( void ) const
+        bool AtEnd( void )
         {
-            return iterator == list.end();
+            return position == list.size();
         }
 
         /**
@@ -74,12 +68,12 @@ class CCarList
         */
         void Next( void )
         {
-            iterator++;
+            position++;
         }
 
     private:
         vector<CCar*> list;
-        vector<CCar*>::iterator iterator;
+        unsigned int position = 0;
 };
 
 /**
@@ -89,9 +83,67 @@ class CCarList
 class CRegister
 {
     public:
-        CRegister( void )
+        /**
+        * Tells if car, specified by its RZ, exists
+        * @param rz registration identification
+        * @return exists
+        */
+        bool Exists( const string & rz )
         {
+            CCar needle = CCar( rz, "", "" );
+            return binary_search( carsByRZ.begin(), carsByRZ.end(), &needle,
+                    [] (CCar *a, CCar *b) -> bool { return a->rz < b->rz; }
+            );
+        }
 
+        /**
+        * Tells if car, specified by its owner's name and surname, exists
+        * @param name owner's name
+        * @param surname owner's surname
+        * @return exists
+        */
+        bool Exists( const string & name, const string & surname )
+        {
+            CCar needle = CCar( "", name, surname );
+            return binary_search( carsByName.begin(), carsByName.end(), &needle, [] (CCar *a, CCar *b) -> bool
+            {
+                return ( a->ownerName + a->ownerSurname ) < ( b->ownerName + b->ownerSurname );
+                /* return ( a->ownerName == b->ownerName ? a->ownerSurname < b->ownerSurname : a->ownerName < b->ownerName ); */
+            }
+            );
+        }
+
+        /**
+        * Search car by its RZ. The car must exists, otherwise a wrong iterator could be returned
+        * @param registration identification
+        * @return iterator, found element
+        */
+        vector<CCar*>::iterator Find( const string & rz )
+        {
+            CCar needle = CCar( rz, "", "" );
+            auto result = lower_bound( carsByRZ.begin(), carsByRZ.end(), &needle,
+                    [] (CCar *a, CCar *b) -> bool { return a->rz < b->rz; }
+            );
+
+            return result;
+
+        }
+
+        /**
+        * Search car by its owner name and surname. The car must exists, otherwise a wrong iterator could be returned
+        * @param name owner's name
+        * @param surname owner's surname
+        * @return iterator, found element
+        */
+        vector<CCar*>::iterator Find( const string & name, const string & surname )
+        {
+            CCar needle = CCar( "", name, surname );
+            return lower_bound( carsByName.begin(), carsByName.end(), &needle, [] (CCar *a, CCar *b) -> bool
+            {
+                return ( a->ownerName + a->ownerSurname ) < ( b->ownerName + b->ownerSurname );
+                /* return ( a->ownerName == b->ownerName ? a->ownerSurname < b->ownerSurname : a->ownerName < b->ownerName ); */
+            }
+            );
         }
 
         /**
@@ -105,10 +157,15 @@ class CRegister
         {
             CCar * car = new CCar( rz, name, surname );
 
-            carsByName.insert( carsByName.end(), car );
-            carsByRZ.insert( carsByRZ.end(), car );
+            if ( ! Exists( rz ) )
+            {
+                carsByName.insert( Find( name, surname ), car );
+                carsByRZ.insert( Find( rz ), car );
 
-            return true; // todo
+                return true;
+            }
+            else
+                return false;
         }
 
         /**
@@ -118,7 +175,20 @@ class CRegister
         */
         bool DelCar( const string & rz )
         {
-            return false; // todo
+            if ( Exists( rz ) )
+            {
+                auto it = Find( rz );
+                CCar *fCar = *it;
+
+                carsByRZ.erase( it );
+
+                it = Find( fCar->ownerName, fCar->ownerSurname );
+                carsByName.erase( it );
+
+                return true;
+            }
+            else
+                return false;
         }
 
         /**
@@ -129,27 +199,22 @@ class CRegister
         */
         bool Transfer( const string & rz, const string & nName, const string & nSurname)
         {
-            return false; //todo
-        }
+            if ( Exists( rz ) )
+            {
+                CCar * car = *Find( rz );
 
-        vector<CCar*>::iterator Find( const string & rz )
-        {
-            CCar needle = CCar( rz, "", "" );
-            vector<CCar*>::iterator result = lower_bound( carsByRZ.begin(), carsByRZ.end(), &needle,
-                    [] (CCar *a, CCar *b) -> bool { return a->rz < b->rz; }
-            );
-            return ( *result != NULL && (*result)->rz == rz ? result : carsByRZ.end() );
-        }
-
-        vector<CCar*>::iterator Find( const string & name, const string & surname )
-        {
-            CCar needle = CCar( "", name, surname );
-            vector<CCar*>::iterator result = lower_bound( carsByName.begin(), carsByName.end(), &needle, [] (CCar *a, CCar *b) -> bool
+                if ( nName != car->ownerName || nSurname != car->ownerSurname )
                 {
-                    return ( a->ownerName + a->ownerSurname ) < ( b->ownerName + b->ownerSurname );
-                }
-            );
-            return ( *result != NULL && (*result)->ownerName == name && (*result)->ownerSurname == surname ? result : carsByName.end() );
+                    // This may be slow
+                    DelCar( rz );
+                    AddCar( rz, nName, nSurname );
+
+                    return true;
+                } else
+                    return false;
+            }
+            else
+                return false;
         }
 
         /**
@@ -158,11 +223,25 @@ class CRegister
         * @param surname person surname
         * @return list of owned cars
         */
-        CCarList ListCars( const string & name, const string & surname ) const
+        CCarList ListCars( const string & name, const string & surname )
         {
-            CCarList list;
+            CCarList *list = new CCarList();
 
-            return list; // todo
+            if ( Exists( name, surname ) )
+            {
+                for ( vector<CCar*>::iterator i = Find( name, surname ); i != carsByName.end(); ++i )
+                {
+                    CCar *car = *i;
+
+                    if ( car->ownerName == name && car->ownerSurname == surname )
+                        list->Add( car );
+
+                    else
+                        break;
+                }
+            }
+
+            return *list;
         }
 
         /**
@@ -171,24 +250,24 @@ class CRegister
         * @param surname person surname
         * @return owned cars count
         */
-        int CountCars( const string & name, const string & surname ) const
+        int CountCars( const string & name, const string & surname )
         {
-            return -1; // todo
-        }
+            int count = 0;
 
-        void Print( int field = 1 )
-        {
-            vector<CCar*> carField = field == 2 ? carsByRZ : carsByName;
-
-            cout << endl << " = REGISTER | field " << field << " | : " << endl;
-
-            int o = 0;
-
-            for ( CCar * i : carField )
+            if ( Exists( name, surname ) )
             {
-                cout << " - " << o << ": [" << i << "] " << i->rz << ", " << i->ownerName << " " << i->ownerSurname << endl;
-                o++;
+                for ( vector<CCar*>::iterator i = Find( name, surname ); i != carsByName.end(); i++ )
+                {
+                    CCar * car = *i;
+
+                    if ( car->ownerName == name && car->ownerSurname == surname )
+                        count++;
+                    else
+                        break;
+                }
             }
+
+            return count;
         }
 
     private:
@@ -199,31 +278,12 @@ class CRegister
 #ifndef __PROGTEST__
 int main ( void )
 {
-
-    CRegister reg;
-
-    reg.AddCar( "ABC-12-34", "Marian", "Hlavac" );
-
-
-
-    cout << *(reg.Find("Marian", "Hlavac")) << endl;
-    cout << *(reg.Find("Neexistuju", "Abrakadabra")) << endl;
-
-    reg.AddCar( "LOL-66-66", "Michal", "Hoobatka" );
-    reg.AddCar( "ASS-69-69", "Tvoje", "Mama" );
-
-    reg.Print( 1 );
-    reg.Print( 2 );
-
-    cout << *reg.Find( "Michal", "Hoobatka" ) << endl;
-    cout << *reg.Find( "Neexistuju", "Pyco" ) << endl;
-
-/*
-    CRegister b1;
+    CRegister b1 = CRegister();
     assert ( b1 . AddCar ( "ABC-12-34", "John", "Smith" ) );
-    assert ( b1 . AddCar ( "ABC-32-22", "John", "Hacker" ) );
     assert ( b1 . AddCar ( "XYZ-11-22", "Peter", "Smith" ) );
+    assert ( b1 . AddCar ( "ABC-32-22", "John", "Hacker" ) );
     assert ( b1 . CountCars ( "John", "Hacker" ) == 1 );
+
     for ( CCarList l = b1 . ListCars ( "John", "Hacker" ); ! l . AtEnd (); l . Next () )
         cout << l . RZ () << endl;
     // the following plate
@@ -277,7 +337,7 @@ int main ( void )
 
     assert ( b1 . AddCar ( "XYZ-11-22", "George", "White" ) );
 
-    CRegister b2;
+    CRegister b2 = CRegister();
     assert ( b2 . AddCar ( "ABC-12-34", "John", "Smith" ) );
     assert ( b2 . AddCar ( "ABC-32-22", "John", "Hacker" ) );
     assert ( b2 . AddCar ( "XYZ-11-22", "Peter", "Smith" ) );
@@ -289,8 +349,6 @@ int main ( void )
     for ( CCarList l = b2 . ListCars ( "George", "White" ); ! l . AtEnd (); l . Next () )
         cout << l . RZ () << endl;
     // empty output
-
-    */
 
     return 0;
 }
