@@ -294,14 +294,6 @@ class CRegister
             return count;
         }
 
-        void PrintAllCars( int sortedBy = 0 )
-        {
-            for ( CCar * car : ( sortedBy == 1 ? carsByName : carsByRZ) )
-            {
-                cout << car->rz << ": " << car->ownerName << " " << car->ownerSurname << endl;
-            }
-        }
-
     private:
         vector<CCar*> carsByName;
         vector<CCar*> carsByRZ;
