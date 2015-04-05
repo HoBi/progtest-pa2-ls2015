@@ -16,22 +16,18 @@ using namespace std;
 class CCar
 {
     public:
-        CCar( const string & rz, unsigned int vin, const string & name, const string & surname )
+        CCar( const string & rz, unsigned int vin, const string & name, const string & surname, vector<pair<string,string>> * oldOwners = NULL )
         {
             this->rz = rz;
             this->vin = vin;
             ownerName = name;
             ownerSurname = surname;
+            if ( oldOwners != NULL ) ownerHistory = *oldOwners;
         }
 
         void NewOwner( const string & name, const string & surname )
         {
-            ownerHistory.insert( ownerHistory.end(), pair<string,string>(name, surname) );
-        }
-
-        void ApplyOldOwnerList( vector<pair<string,string>> *oldOwnerHistory )
-        {
-            this->ownerHistory = *oldOwnerHistory;
+            ownerHistory.insert( ownerHistory.begin(), pair<string,string>(name, surname) );
         }
 
         string rz;
@@ -265,7 +261,7 @@ class CRegister
         {
             CCar needle = CCar( "", vin, "", "" );
             return lower_bound( carsByVIN.begin(), carsByVIN.end(), &needle,
-                    [] (CCar *a, CCar *b) -> bool { return a->rz < b->rz; }
+                    [] (CCar *a, CCar *b) -> bool { return a->vin < b->vin; }
             );
         }
 
@@ -279,22 +275,16 @@ class CRegister
         */
         bool AddCar( const string & rz, const unsigned int vin, const string & name, const string & surname, vector<pair<string,string>> * oldOwners = nullptr )
         {
-            if ( ! Exists( rz ) )
+            if ( Exists( rz ) || Exists( vin ) ) return false;
+            else
             {
-                CCar * car = new CCar( rz, vin, name, surname );
-
-                if ( oldOwners != NULL )
-                    car->ApplyOldOwnerList( oldOwners );
+                CCar * car = new CCar( rz, vin, name, surname, oldOwners );
                 car->NewOwner( name, surname );
 
                 carsByName.insert( Find( name, surname ), car );
                 carsByRZ.insert( Find( rz ), car );
                 carsByVIN.insert( Find( vin ), car );
                 return true;
-            }
-            else
-            {
-                return false;
             }
         }
 
@@ -377,13 +367,13 @@ class CRegister
                 CCar * car = *Find( rz );
 
                 unsigned int nVin = car->vin;
-                vector<pair<string,string>> * oldOwnerList = &(car->ownerHistory);
+                vector<pair<string,string>> oldOwnerList = car->ownerHistory;
 
                 if ( nName != car->ownerName || nSurname != car->ownerSurname )
                 {
                     // This may be slow
                     if ( ! DelCar( rz ) ) return false;
-                    if ( ! AddCar( rz, nVin, nName, nSurname, oldOwnerList ) ) return false;
+                    if ( ! AddCar( rz, nVin, nName, nSurname, &oldOwnerList ) ) return false;
 
                     return true;
                 } else
@@ -407,13 +397,13 @@ class CRegister
                 CCar * car = *Find( vin );
 
                 string nRZ = car->rz;
-                vector<pair<string,string>> * oldOwnerList = &(car->ownerHistory);
+                vector<pair<string,string>> oldOwnerList = car->ownerHistory;
 
                 if ( nName != car->ownerName || nSurname != car->ownerSurname )
                 {
                     // This may be slow
                     if ( ! DelCar( vin ) ) return false;
-                    if ( ! AddCar( nRZ, vin, nName, nSurname, oldOwnerList ) ) return false;
+                    if ( ! AddCar( nRZ, vin, nName, nSurname, &oldOwnerList ) ) return false;
 
                     return true;
                 } else
@@ -625,6 +615,7 @@ int main ( void )
         cout << l . RZ () << ", " << l . VIN () << endl;
     // empty output
 
+    cout << b1 . CountOwners ( 10 );
     assert ( b1 . CountOwners ( 10 ) == 4 );
     for ( COwnerList l = b1 . ListOwners ( 10 ); ! l . AtEnd (); l . Next () )
         cout << l . Surname () << ", " << l . Name () << endl;
