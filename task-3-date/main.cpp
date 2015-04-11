@@ -12,7 +12,7 @@ using namespace std;
 class InvalidDateException {};
 
 //=================================================================================================
-// date_format manipulator - a dummy implementation. Keep this code unless you implement your 
+// date_format manipulator - a dummy implementation. Keep this code unless you implement your
 // own working manipulator.
 ios_base & dummy_date_format_manipulator ( ios_base & x )
 {
@@ -24,12 +24,14 @@ ios_base & ( * ( date_format ( const char * fmt ) ) ) ( ios_base & x )
     return dummy_date_format_manipulator;
 }
 //=================================================================================================
+
 class CDate
 {
 public:
+
     CDate( int y, int m, int d )
     {
-        if ( !isDateValid( y, m, d ) ) throw new InvalidDateException();
+        if ( !isDateValid( y, m, d ) ) throw InvalidDateException();
         year = y; month = m; day = d;
     }
 
@@ -47,8 +49,41 @@ public:
 
     int operator-( CDate decd )
     {
-        //increase( -decd );
-        return 0;
+        int days = 0;
+
+        // No difference
+        if ( decd == *this ) return 0;
+
+        CDate larger = decd > *this ? decd : *this;
+        CDate smaller = decd < *this ? decd : *this;
+
+        // Process full years
+        for ( int i = smaller.year + 1 ; i < larger.year ; i++ )
+            days += isLeap( i ) ? 366 : 365;
+
+        if ( days != 0 )
+        {
+            // Process full months at start todo: this is sensitive one
+            for ( int i = smaller.month + 1 ; i <= 12; i++ )
+                days += getMonthDaysCount( i, smaller.year );
+
+            // Process full months at end todo: aaand this one too
+            for ( int i = 1 ; i < larger.month; i++ )
+                days += getMonthDaysCount( i, larger.year );
+        }
+        else
+        {
+            // Process full months within one year
+            for ( int i = smaller.month +1 ; i < larger.month; i++ )
+                days += getMonthDaysCount( i, smaller.year );
+        }
+
+        // Process start and end days
+        days += smaller.year == larger.year && smaller.month == larger.month ?
+                larger.day - smaller.day :
+                getMonthDaysCount( smaller.month, smaller.year ) - smaller.day + larger.day;
+
+        return days;
     }
 
     CDate& operator++()
@@ -63,16 +98,18 @@ public:
         return *this;
     }
 
-    CDate operator++( int ) // prolly wrong, todo
+    CDate operator++( int )
     {
-        increase( 1 );
-        return *this;
+        CDate tmp(*this);
+        operator++();
+        return tmp;
     }
 
-    CDate operator--( int ) // prolly wrong, todo
+    CDate operator--( int )
     {
-        increase( -1 );
-        return *this;
+        CDate tmp(*this);
+        operator--();
+        return tmp;
     }
 
     bool operator==( CDate date )
@@ -124,17 +161,29 @@ public:
     friend ostream& operator<<( ostream& os, CDate& d )
     {
         os << setw(4) << setfill('0') << d.year << "-" << setw(2) << d.month << "-" << setw(2) << d.day;
+        return (os);
     }
 
-    friend istream& operator>>( istream& is, CDate& d )
+    friend istream& operator>>( istream& is, CDate &d )
     {
-        return is;
+        int yr = 0, mt = 0, dy = 0;
+        char d1, d2;
+
+        // Get the shit there
+        is >> yr >> d1 >> mt >> d2 >> dy;
+
+        // Check if the shit is alrighty
+        if ( ! is.eof() || is.fail()
+             || ! ( d1 == '-' && d2 == '-' )
+             || ! isDateValid( yr, mt, dy ) ) { is.setstate( ios::failbit ); return is; }
+
+        // Get the fowk out of here
+        d.year = yr; d.month = mt; d.day = dy;
+        return (is);
     }
-    // operators << and >>
 
 private:
     int year, month, day;
-    int daysInMonth[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
     void increase( int by )
     {
@@ -143,10 +192,10 @@ private:
         // stepping up
         while ( isNextMonth( month, day ) )
         {
-            day -= isLeap() && month == 1 ? 29 : daysInMonth[ month ];
+            day -= getMonthDaysCount( month );
             month++;
 
-            if ( month > 11 ) { month = 0; year++; }
+            if ( month > 12 ) { month = 1; year++; }
         }
 
         // stepping dn
@@ -154,26 +203,31 @@ private:
         {
             month--;
             if ( month < 1 ) { month = 12; year--; }
-            day += isLeap() && month == 1 ? 29 : daysInMonth[ month ];
+            day += getMonthDaysCount( month );
         }
     }
 
-    bool isDateValid( int y, int m, int d )
+    static bool isDateValid( int y, int m, int d )
     {
-        if ( y < 0 || y > 9999 ) return false; // ?? not sure, todo
+        if ( y < 1 ) return false; // ?? not sure, todo
         if ( m < 1 || m > 12 ) return false;
-        if ( isNextMonth( m, d ) ) return false;
+        if ( isNextMonth( y, m, d ) ) return false;
         return true;
     }
 
     bool isNextMonth( int m, int d )
     {
-        return ( isLeap() && m == 2 ? ( d > 29 ) : ( d > daysInMonth[ m ] ) ); // todo
+        return d > getMonthDaysCount( m );
+    }
+
+    static bool isNextMonth( int y, int m, int d )
+    {
+        return d > getMonthDaysCount( m, y );
     }
 
     bool isLastDay()
     {
-        return ( isLeap() && month == 2 ? ( day == 29 ) : ( day == daysInMonth[ month ] ) ); // todo
+        return day == getMonthDaysCount( month );
     }
 
     bool isLastMonth()
@@ -185,12 +239,38 @@ private:
     {
         return ( ( !( year % 4 ) && year % 100 ) || !( year % 400 ) ); // todo
     }
+
+    static bool isLeap( int y )
+    {
+        return ( ( !( y % 4 ) && y % 100 ) || !( y % 400 ) ); // todo
+    }
+
+    int getMonthDaysCount( int m )
+    {
+        int daysInMonth[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+        return isLeap( year ) && m == 2 ? 29 : daysInMonth[ m - 1 ];
+    }
+
+    static int getMonthDaysCount( int m, int y )
+    {
+        int daysInMonth[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+        return isLeap( y ) && m == 2 ? 29 : daysInMonth[ m - 1 ];
+    }
 };
+
+#ifndef __PROGTEST__
 
 int main( void )
 {
+
     ostringstream oss;
     istringstream iss;
+
+
+    CDate x(1970, 1, 1);
+
+    iss.str("12-");
+    iss >> x;
 
     CDate a ( 2000, 1, 2 );
     CDate b ( 2010, 2, 3 );
@@ -287,7 +367,6 @@ int main( void )
 //=============================================================================
 // bonus tests
 //=============================================================================
-
     CDate f ( 2000, 5, 12 );
     oss . str ("");
     oss << f;
@@ -394,3 +473,4 @@ int main( void )
     oss << g;
     assert ( oss . str () == "2000-01-01" );
 }
+#endif /* __PROGTEST__ */
