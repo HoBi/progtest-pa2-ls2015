@@ -10,6 +10,109 @@ using namespace std;
 #endif /* __PROGTEST__ */
 
 /**
+ * @class CSortedList
+ * @brief Sorted list
+ */
+template <class T> class CSortedList
+{
+public:
+    static const ITEM_NOT_FOUND = -1;
+
+    CSortedList()
+    {
+        // First allocation of dynamic array
+        list = new T*[ 64 ];
+        length = 0;
+        max = 64;
+    }
+
+    /**
+     * Finds specified element with binary halving algorithm
+     * @param needle Item to be searched for
+     * @param from Search from index
+     * @param to Search to index
+     */
+    int Find( T needle, int from = 0, int to = length, int *lastFound = nullptr )
+    {
+        if ( to < from )
+            // Needle not found.
+            return ITEM_NOT_FOUND;
+        else
+        {
+            int midpoint = midpoint( from, to );
+            if ( lastFound != nullptr ) *lastFound = midpoint;
+            T mpItem = At( midpoint );
+
+            if ( mpItem > needle )
+                return Find( needle, from, midpoint - 1 );
+            else if ( mpItem < needle )
+                return Find( needle, midpoint + 1, to );
+            else
+                // Item found, return his last occurrence
+                return LastOccurrenceIdx( midpoint );
+        }
+    }
+
+    /**
+     *
+     */
+    bool Insert( T item )
+    {
+        int lastPos = 0;
+        // Get insertion position
+        int pos = Find( item, 0, length, &lastPos );
+
+        if ( pos == -1 )
+        {
+
+        }
+
+    }
+
+    T At( int index )
+    {
+        
+    }
+
+    bool Remove( T item )
+    {
+
+    }
+
+private:
+    T* list;
+    bool isUnique = false;
+    int length, max;
+
+    void ShiftArray()
+
+    bool IsFull()
+    {
+
+    }
+
+    void CheckArrayBoundaries()
+    {
+
+    }
+
+    T LastOccurrenceIdx( int indexFrom )
+    {
+        while ( indexFrom < length - 1 )
+        {
+            if ( At( indexFrom ) == At( indexFrom ) )
+                return indexFrom + 1;
+            indexFrom++;
+        }
+    }
+
+    int midpoint( int from, int to )
+    {
+        return ( to - from ) / 2 + from;
+    }
+};
+
+/**
 * @class CCar
 * @brief Instance of car
 */
