@@ -178,6 +178,12 @@ class CRegister
                 delete lastCarList;
         }
 
+        CRegister( const CRegister & reg )
+        {
+            cout << "Doing copy";
+
+        }
+
         /**
         * Tells if car, specified by its RZ, exists
         * @param rz registration identification
