@@ -65,6 +65,11 @@ public:
             this->list[ i ] = list.At( i );
     }
 
+    virtual CList & operator=( const CList & list )
+    {
+        return *this;
+    }
+
     /**
      * Returns item from list at specified location
      * @param index
@@ -335,7 +340,7 @@ public:
         return true;
     }
 
-private:
+protected:
     bool isUnique, pointers;
 
 };
@@ -350,15 +355,7 @@ class CCarList : public CSortedList<CCar*>
 {
 public:
 
-    CCarList & operator=( const CCarList & list )
-    {
-        cout << "ccarlist copying";
-        if ( &list != this )
-        {
-
-        }
-        return *this;
-    }
+    virtual CCarList & operator=( const CCarList & cslist );
 
     /**
      * @return Iterated car's RZ
@@ -436,6 +433,30 @@ public:
 * @brief List of car owners (in correct historical sorting)
 */
 class COwnerList : public CList<COwner*>
+{
+public:
+
+    /**
+     * @return Iterated owner's name
+     */
+    const char * Name( void )
+    {
+        return list[ position ]->name;
+    }
+    /**
+     * @return Iterated owner's surname
+     */
+    const char * Surname( void )
+    {
+        return list[ position ]->surname;
+    }
+};
+
+/**
+* @class COwnerList
+* @brief List of car owners (in correct historical sorting)
+*/
+class CSortedOwnerList : public CSortedList<COwner*>
 {
 public:
 
@@ -534,6 +555,22 @@ const char * CCarList::RZ( void )
     return list[ position ]->rz;
 }
 
+CCarList & CCarList::operator=( const CCarList & cslist )
+{
+    if ( &cslist != this )
+    {
+        this->length = cslist.length;
+        this->max = cslist.max;
+        this->list = new CCar*[ this->max ];
+        this->isUnique = cslist.isUnique;
+        this->pointers = cslist.pointers;
+
+        for ( int i = 0; i < this->length; i++ )
+            this->list[ i ] = new CCar( *cslist.list[ i ] );
+    }
+    return *this;
+}
+
 /**
 * @class CRegister
 * @brief Main class of the car register
@@ -543,8 +580,8 @@ class CRegister
     public:
         CRegister()
         {
-            this->cars = CSortedList<CCar*>( true, true );
-            this->owners = CSortedList<COwner*>( true, true );
+            this->cars = CCarList( );
+            this->owners = CSortedOwnerList( );
         }
 
         CRegister( const CRegister & reg )
@@ -626,9 +663,8 @@ class CRegister
             if ( !cars.Insert( car ) ) return false;
 
             // Add to owner's list
-            if ( !owner->cars->Insert( car ) ) return false;
+            return owner->cars->Insert( car );
 
-            return true;
         }
 
         /**
@@ -747,38 +783,13 @@ class CRegister
         }
 
     private:
-        CSortedList<CCar*> cars;
-        CSortedList<COwner*> owners;
+        CCarList cars;
+        CSortedOwnerList owners;
 };
 
 #ifndef __PROGTEST__
 int main ( void )
 {
-
-    CRegister r;
-    r.AddCar( "ABC-1234", "Jan", "Novak" );
-    r.AddCar( "XYZ-6969", "Robert", "Roztrhl" );
-
-    cout << r;
-
-    CRegister s;
-    s = r;
-
-    cout << " --- zkopirovano: " << endl;
-
-    cout << r;
-    cout << s;
-
-    s.AddCar( "SFX-6546", "Jindrich", "Jankovskij" );
-    s.DelCar( "XYZ-6969" );
-
-    cout << " --- provedeny zmeny: " << endl;
-
-    cout << r;
-    cout << s;
-
-    return 69;
-
     char name[50], surname[50];
     CRegister  b0;
     assert ( b0 . AddCar ( "ABC-12-34", "John", "Smith" ) == true );
