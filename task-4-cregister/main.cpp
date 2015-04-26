@@ -184,6 +184,8 @@ public:
         length = 0;
         max = 64;
         list = new T[ max ];
+        isUnique = false;
+        position = 0;
     }
 
     CList( int size )
@@ -191,6 +193,8 @@ public:
         length = size;
         max = size + 8;
         list = new T[ max ];
+        isUnique = false;
+        position = 0;
     }
 
     CList( const CList & list )
@@ -198,6 +202,8 @@ public:
         this->length = list.length;
         this->max = list.max;
         this->list = new T[ max ];
+        this->isUnique = false;
+        this->position = 0;
 
         for ( int i = 0; i < length; i++ )
             this->list[ i ] = list.At( i );
