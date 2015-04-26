@@ -569,7 +569,7 @@ public:
     friend bool operator!=( const COwner & lhs, const COwner & rhs) { return !operator==( lhs, rhs ); }
     friend bool operator<( const COwner & lhs, const COwner & rhs)
     {
-        return lhs.name == rhs.name ? CStringFuncs::smallerThan( lhs.surname, rhs.surname ) : CStringFuncs::smallerThan( lhs.name, rhs.name );
+        return CStringFuncs::areEqual( lhs.name, rhs.name ) ? CStringFuncs::smallerThan( lhs.surname, rhs.surname ) : CStringFuncs::smallerThan( lhs.name, rhs.name );
     }
     friend bool operator>( const COwner & lhs, const COwner & rhs ) { return operator<( rhs, lhs ); }
     friend bool operator<=( const COwner & lhs, const COwner & rhs ) { return !operator>( lhs, rhs ); }
@@ -690,7 +690,7 @@ class CCar
             this->rz = rz;
             this->owner = owner;
             this->ownerHistory = new COwnerList();
-            ownerHistory->Insert( owner, ownerHistory->length );
+            ownerHistory->Insert( owner, 0 );
         }
 
         CCar( const char * rz )
@@ -724,7 +724,7 @@ class CCar
 
         void TransferTo( COwnerSPtr newOwner )
         {
-            ownerHistory->Insert( newOwner, ownerHistory->length );
+            ownerHistory->Insert( newOwner, 0 );
             owner = newOwner;
         }
 
@@ -843,21 +843,23 @@ class CRegister
         */
         bool AddCar( const char * rz, const char * name, const char * surname )
         {
+            // Check uniqueness
+            char *nRZ = CStringFuncs::makeCopy( rz );
+            char *nName = CStringFuncs::makeCopy( name );
+            char *nSurname = CStringFuncs::makeCopy( surname );
+            CCarSPtr car = new CCar( nRZ, new COwner( nName, nSurname ) );
+            if ( cars->Find( car ) != -1 ) { delete nRZ; return false; }
+
             // Copy register cars and owners lists if shared
             CloneRegisterListsIfNeeded();
 
             // Get or create new owner (already saves to this->owners, copy strings etc.)
             COwnerSPtr owner = this->GetOrCreateOwner( COwnerSPtr( new COwner( name, surname ) ) );
 
-            // Copy RZ string
-            char *nRZ = CStringFuncs::makeCopy( rz );
+            car->owner = owner;
 
             // Create the car
-            CCarSPtr car = new CCar( nRZ, owner );
-            if ( !cars->Insert( car ) )
-            {
-                delete nRZ; return false;
-            }
+            cars->Insert( car );
 
             // Add to owner's list
             owner->cars->Insert( car );
@@ -929,7 +931,8 @@ class CRegister
             COwnerSPtr newOwner = this->GetOrCreateOwner( new COwner( nName, nSurname ) );
 
             // Delete from old owner's carlist
-            oldOwner->cars->Remove( oldOwner->cars->Find( cars->At( searchResult ) ) );
+            int carToRemove = oldOwner->cars->Find( cars->At( searchResult ) );
+            if ( carToRemove != -1 ) oldOwner->cars->Remove( carToRemove );
 
             // Detach the car ( make copy )
             if ( searchResult != CCarList::ITEM_NOT_FOUND )
@@ -1017,6 +1020,25 @@ class CRegister
                 return found->ownerHistory->length;
             } else return 0;
         }
+
+        void PrintAllCars()
+        {
+            cout << endl << " ------------------ " << endl;
+            for ( int i = 0; i < cars->length; i++ )
+                {
+                cout << i << ": " << cars->At( i )->rz << " :: " << &(*(cars->At( i ))) <<
+                        ", owner: " << &(*(cars->At( i )->owner)) << endl;
+                }
+        }
+
+    void PrintAllOwners()
+    {
+        cout << endl << " ------------------ " << endl;
+        for ( int i = 0; i < owners->length; i++)
+        {
+            cout << i << ": " << owners->At( i )->name << " " << owners->At( i )->surname << " :: " << &(*(owners->At(i))) << ", " << owners->At( i )->cars->length << "cars" << endl;
+        }
+    }
 
     private:
         CCarListSPtr cars;
