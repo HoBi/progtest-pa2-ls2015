@@ -783,8 +783,8 @@ class CRegister
     public:
         CRegister()
         {
-            this->cars = new CCarList();
-            this->owners = new CSortedOwnerList();
+            this->cars = CCarListSPtr( new CCarList() );
+            this->owners = CSortedOwnerListSPtr( new CSortedOwnerList() );
             sharedCarList = sharedOwnerList = false;
         }
 
@@ -852,7 +852,7 @@ class CRegister
             char *nRZ = CStringFuncs::makeCopy( rz );
             char *nName = CStringFuncs::makeCopy( name );
             char *nSurname = CStringFuncs::makeCopy( surname );
-            CCarSPtr car = new CCar( nRZ, new COwner( nName, nSurname ) );
+            CCarSPtr car = CCarSPtr( new CCar( nRZ, COwnerSPtr( new COwner( nName, nSurname ) ) ) );
             if ( cars->Find( car ) != -1 ) { delete[] nRZ; return false; }
 
             // Copy register cars and owners lists if shared
