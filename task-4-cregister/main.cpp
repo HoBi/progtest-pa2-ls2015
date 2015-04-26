@@ -183,7 +183,6 @@ public:
     {
         length = 0;
         max = 64;
-        list = new T[ max ];
         isUnique = false;
         position = 0;
     }
@@ -192,7 +191,6 @@ public:
     {
         length = size;
         max = size + 8;
-        list = new T[ max ];
         isUnique = false;
         position = 0;
     }
@@ -201,12 +199,8 @@ public:
     {
         this->length = list.length;
         this->max = list.max;
-        this->list = new T[ max ];
         this->isUnique = false;
         this->position = 0;
-
-        for ( int i = 0; i < length; i++ )
-            this->list[ i ] = list.At( i );
     }
 
     virtual ~CList()
@@ -390,8 +384,6 @@ public:
     CSortedList( bool unique = true, bool pointers = false )
     {
         // First allocation of dynamic array
-        this->length = 0;
-        this->max = 64;
         this->list = new T[ this->max ];
         this->isUnique = unique;
         this->pointers = pointers;
@@ -399,13 +391,12 @@ public:
 
     CSortedList( const CSortedList & list )
     {
-        this->length = list.length;
-        this->max = list.max;
-        this->list = new T[ this->max ];
+        this->list = new T[ list.max ];
         this->isUnique = list.isUnique;
         this->pointers = list.pointers;
+        this->length = list.length;
 
-        for ( int i = 0; i < this->length; i++ )
+        for ( int i = 0; i < list.length; i++ )
             this->list[ i ] = list.At( i );
     }
 
@@ -418,6 +409,7 @@ public:
             this->list = new T[ this->max ];
             this->isUnique = cslist.isUnique;
             this->pointers = cslist.pointers;
+            this->length = cslist.length;
 
             if ( this->pointers )
                 for ( int i = 0; i < this->length; i++ )
@@ -601,12 +593,20 @@ public:
 
     COwnerList() : CList<COwnerSPtr>()
     {
+        this->list = new COwnerSPtr[ this->max ];
+    }
 
+    COwnerList( const COwnerList & clist ) : CList<COwnerSPtr>( clist )
+    {
+        this->list = new COwnerSPtr[ this->length ];
+
+        for ( int i = 0; i < this->length; i++ )
+            this->list[ i ] = clist.At( i );
     }
 
     COwnerList( int size ) : CList<COwnerSPtr>( size )
     {
-
+        this->list = new COwnerSPtr[ size + 8 ];
     }
 
     /**
@@ -635,12 +635,12 @@ class CSortedOwnerList : public CSortedList<COwnerSPtr>
 public:
     CSortedOwnerList() : CSortedList<COwnerSPtr>( true, true )
     {
-
+        // empty corr
     }
 
     CSortedOwnerList( const CSortedOwnerList & cslist) : CSortedList<COwnerSPtr>( cslist )
     {
-
+        // empty corr
     }
 
     /**
@@ -1145,8 +1145,6 @@ int main ( void )
     for ( COwnerList l = b2 . ListOwners ( "AAA-AA-AA" ); ! l . AtEnd (); l . Next () )
         cout << l . Surname () << ", " << l . Name () << endl;
     // the following 0 owners in that order:
-
-
 
     return 0;
 }
