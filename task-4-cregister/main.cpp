@@ -177,7 +177,7 @@ template <class T> class CList
 {
 public:
     static const int ITEM_NOT_FOUND = -1;
-    int length = 0;
+    int length;
 
     CList()
     {
@@ -292,8 +292,8 @@ public:
 
 protected:
     T* list;
-    bool isUnique = false;
-    int max, position = 0;
+    bool isUnique;
+    int max, position;
 
     /**
      * Checks if there is still enough room for storing more items in list
