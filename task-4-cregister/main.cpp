@@ -10,6 +10,137 @@ using namespace std;
 
 class IndexOutOfBoundaryException {};
 class ItemNotFoundException {};
+class OwnerNotCopiedException {};
+
+struct SharedPtrRefCounter
+{
+public:
+    int references;
+    SharedPtrRefCounter() { references = 1; }
+    SharedPtrRefCounter( int start ) { references = start; }
+};
+
+/**
+ * @class SharedPtr
+ */
+template <typename T> class SharedPtr
+{
+public:
+    SharedPtr() : ptr( 0 ), refCounter( 0 )
+    {
+        refCounter = new SharedPtrRefCounter();
+        isZero = true;
+    }
+
+    SharedPtr( T * ptr ) : ptr( ptr ), refCounter( 0 )
+    {
+        refCounter = new SharedPtrRefCounter();
+        isZero = false;
+    }
+
+    virtual ~SharedPtr()
+    {
+        if ( (--refCounter->references) == 0 )
+        {
+            delete ptr;
+            delete refCounter;
+        }
+    }
+
+    SharedPtr( const SharedPtr<T> & sptr ) : ptr( sptr.ptr ), refCounter( sptr.refCounter )
+    {
+        refCounter->references++;
+    }
+
+    SharedPtr & operator=( const SharedPtr & ptr )
+    {
+        if ( this != &ptr )
+        {
+            if ( (--refCounter->references) == 0 )
+            {
+                delete this->ptr;
+                delete refCounter;
+            }
+
+            this->ptr = ptr.ptr;
+            refCounter = ptr.refCounter;
+            refCounter->references++;
+        }
+        return *this;
+    }
+
+    const SharedPtr & operator=( const SharedPtr & ptr ) const
+    {
+        if ( this != &ptr )
+        {
+            if ( (--refCounter->references) == 0 ) { delete ptr; delete refCounter; }
+
+            ptr = ptr.ptr;
+            refCounter = ptr.refCounter;
+            refCounter->references++;
+        }
+        return *this;
+    }
+
+    T* operator->()
+    {
+        return ptr;
+    }
+
+    const T* operator->() const
+    {
+        return ptr;
+    }
+
+    T& operator*()
+    {
+        return *ptr;
+    }
+
+    SharedPtr & Detach()
+    {
+        T * nPtr = new T( *ptr );
+        if ( (--refCounter->references) == 0 ) { delete ptr; delete refCounter; }
+        refCounter = new SharedPtrRefCounter();
+        ptr = nPtr;
+
+        return *this;
+    }
+
+    SharedPtr & DetachIfShared()
+    {
+        if ( refCounter->references > 1 )
+        {
+            refCounter->references--;
+            ptr = new T( *ptr );
+            refCounter = new SharedPtrRefCounter();
+        }
+
+        return *this;
+    }
+
+    bool operator==( const SharedPtr & rhs ) const
+    {
+        return ( isZero == rhs.isZero || ptr == rhs.ptr );
+    }
+
+    bool operator<( const SharedPtr & rhs ) const { return ptr < rhs.ptr; }
+    bool operator>( const SharedPtr & rhs ) const { return ptr > rhs.ptr; }
+
+private:
+    T* ptr;
+    SharedPtrRefCounter* refCounter;
+    bool isZero;
+};
+
+class SharedPtrFactory
+{
+public:
+    template <class T> static SharedPtr<T> create( T* object )
+    {
+        return SharedPtr<T>( object );
+    }
+};
 
 /**
  * @class CStringFuncs
@@ -55,6 +186,13 @@ public:
         list = new T[ max ];
     }
 
+    CList( int size )
+    {
+        length = size;
+        max = size + 8;
+        list = new T[ max ];
+    }
+
     CList( const CList & list )
     {
         this->length = list.length;
@@ -63,6 +201,11 @@ public:
 
         for ( int i = 0; i < length; i++ )
             this->list[ i ] = list.At( i );
+    }
+
+    virtual ~CList()
+    {
+
     }
 
     virtual CList & operator=( const CList & list )
@@ -80,6 +223,14 @@ public:
             throw IndexOutOfBoundaryException();
 
         return list[ index ];
+    }
+
+    void Set( int index, T item )
+    {
+        if ( index < 0 || index >= length )
+            throw IndexOutOfBoundaryException();
+
+        list[ index ] = item;
     }
 
     /**
@@ -109,18 +260,6 @@ public:
     }
 
     /**
-     * Prints whole list to cout for debugging purposes
-     */
-    friend ostream & operator<<( ostream & os, const CList<T> &obj )
-    {
-        for ( int i = 0; i < obj.length; i++ )
-            cout << obj.At( i ) << ", ";
-        cout << endl;
-
-        return os;
-    }
-
-    /**
     * Gets iterated item
     * @return end
     */
@@ -144,6 +283,11 @@ public:
     void Next( void )
     {
         position++;
+    }
+
+    void Reset( void )
+    {
+        position = 0;
     }
 
 protected:
@@ -298,7 +442,7 @@ public:
         {
             // Calculate the midpoint and item stored at midpoint position
             midpoint = this->getmidpoint( from, to );
-            T mpItem = this->At( midpoint );
+            T mpItem = this->list[ midpoint ];
 
             // Did we find the item?
             if ( pointers ? *mpItem == *needle : mpItem == needle )
@@ -346,14 +490,20 @@ protected:
 };
 
 class CCar;
+typedef SharedPtr<CCar> CCarSPtr;
 
 /**
  * @class CCarList
  * @brief List of cars with iterator
  */
-class CCarList : public CSortedList<CCar*>
+class CCarList : public CSortedList<CCarSPtr>
 {
 public:
+
+    CCarList() : CSortedList<CCarSPtr>( true, true )
+    {
+
+    }
 
     virtual CCarList & operator=( const CCarList & cslist );
 
@@ -362,6 +512,7 @@ public:
      */
     const char * RZ( void );
 };
+typedef SharedPtr<CCarList> CCarListSPtr;
 
 /**
  * @class COwner
@@ -427,14 +578,25 @@ public:
     const char * name, * surname;
     CCarList * cars;
 };
+typedef SharedPtr<COwner> COwnerSPtr;
 
 /**
 * @class COwnerList
 * @brief List of car owners (in correct historical sorting)
 */
-class COwnerList : public CList<COwner*>
+class COwnerList : public CList<COwnerSPtr>
 {
 public:
+
+    COwnerList() : CList<COwnerSPtr>()
+    {
+
+    }
+
+    COwnerList( int size ) : CList<COwnerSPtr>( size )
+    {
+
+    }
 
     /**
      * @return Iterated owner's name
@@ -451,14 +613,24 @@ public:
         return list[ position ]->surname;
     }
 };
+typedef SharedPtr<COwnerList> COwnerListSPtr;
 
 /**
 * @class COwnerList
 * @brief List of car owners (in correct historical sorting)
 */
-class CSortedOwnerList : public CSortedList<COwner*>
+class CSortedOwnerList : public CSortedList<COwnerSPtr>
 {
 public:
+    CSortedOwnerList() : CSortedList<COwnerSPtr>( true, true )
+    {
+
+    }
+
+    CSortedOwnerList( const CSortedOwnerList & cslist) : CSortedList<COwnerSPtr>( cslist )
+    {
+
+    }
 
     /**
      * @return Iterated owner's name
@@ -474,7 +646,24 @@ public:
     {
         return list[ position ]->surname;
     }
+
+    CSortedOwnerList & operator=( const CSortedOwnerList & cslist )
+    {
+        if ( &cslist != this )
+        {
+            this->length = cslist.length;
+            this->max = cslist.max;
+            this->list = new COwnerSPtr[ this->max ];
+            this->isUnique = cslist.isUnique;
+            this->pointers = cslist.pointers;
+
+            for ( int i = 0; i < this->length; i++ )
+                this->list[ i ] = COwnerSPtr( cslist.list[ i ] );
+        }
+        return *this;
+    }
 };
+typedef SharedPtr<CSortedOwnerList> CSortedOwnerListSPtr;
 
 /**
  * @class CCar
@@ -490,7 +679,7 @@ class CCar
             this->ownerHistory = new COwnerList();
         }
 
-        CCar( const char * rz, COwner * owner )
+        CCar( const char * rz, COwnerSPtr owner )
         {
             this->rz = rz;
             this->owner = owner;
@@ -498,14 +687,19 @@ class CCar
             ownerHistory->Insert( owner, ownerHistory->length );
         }
 
+        CCar( const char * rz )
+        {
+            this->rz = rz;
+        }
+
         CCar( const CCar & car )
         {
             this->rz = CStringFuncs::makeCopy( car.rz );
             this->owner = car.owner;
-            this->ownerHistory = new COwnerList();
+            this->ownerHistory = COwnerListSPtr( new COwnerList( car.ownerHistory->length ) );
 
             for ( int i = 0; i < car.ownerHistory->length; i++ )
-                this->ownerHistory[ i ] = car.ownerHistory[ i ];
+                this->ownerHistory->Set( i, car.ownerHistory->At( i ) );
         }
 
         CCar & operator=( const CCar & car )
@@ -517,12 +711,12 @@ class CCar
                 ownerHistory = new COwnerList();
 
                 for ( int i = 0; i < car.ownerHistory->length; i++ )
-                    ownerHistory[ i ] = car.ownerHistory[ i ];
+                    this->ownerHistory->Set( i, car.ownerHistory->At( i ) );
             }
             return *this;
         }
 
-        void TransferTo( COwner * newOwner )
+        void TransferTo( COwnerSPtr newOwner )
         {
             ownerHistory->Insert( newOwner, ownerHistory->length );
             owner = newOwner;
@@ -538,17 +732,10 @@ class CCar
         friend bool operator<=( const CCar & lhs, const CCar & rhs ) { return !operator>( lhs, rhs ); }
         friend bool operator>=( const CCar & lhs, const CCar & rhs ) { return !operator<( lhs, rhs ); }
 
-        friend ostream & operator<<( ostream & os, const CCar & obj )
-        {
-            os << " CCar " << &obj << ": ( " << obj.rz << ", " << *obj.owner << " )";
-            return os;
-        }
-
         const char * rz;
-        COwner *owner;
-        COwnerList *ownerHistory;
+        COwnerSPtr owner;
+        COwnerListSPtr ownerHistory;
 };
-
 
 const char * CCarList::RZ( void )
 {
@@ -561,15 +748,20 @@ CCarList & CCarList::operator=( const CCarList & cslist )
     {
         this->length = cslist.length;
         this->max = cslist.max;
-        this->list = new CCar*[ this->max ];
+        this->list = new CCarSPtr[ this->max ];
         this->isUnique = cslist.isUnique;
         this->pointers = cslist.pointers;
 
         for ( int i = 0; i < this->length; i++ )
-            this->list[ i ] = new CCar( *cslist.list[ i ] );
+            this->list[ i ] = CCarSPtr( cslist.list[ i ] );
     }
     return *this;
 }
+
+
+
+
+
 
 /**
 * @class CRegister
@@ -580,65 +772,60 @@ class CRegister
     public:
         CRegister()
         {
-            this->cars = CCarList( );
-            this->owners = CSortedOwnerList( );
+            this->cars = new CCarList();
+            this->owners = new CSortedOwnerList();
+            sharedCarList = sharedOwnerList = false;
         }
 
-        CRegister( const CRegister & reg )
+        CRegister( CRegister & reg )
         {
-            cout << "register ctor";
-            this->cars = reg.cars;
             this->owners = reg.owners;
+            this->cars = reg.cars;
+
+            sharedCarList = sharedOwnerList = true;
+            reg.sharedCarList = reg.sharedOwnerList = true;
         }
 
-        CRegister & operator=( const CRegister & rhs )
+        CRegister & operator=( CRegister & rhs )
         {
             if ( &rhs != this )
             {
-                cout << "register ctor (=em)";
-                this->cars = rhs.cars;
                 this->owners = rhs.owners;
+                this->cars = rhs.cars;
+
+                sharedCarList = sharedOwnerList = true;
+                rhs.sharedCarList = rhs.sharedOwnerList = true;
             }
             return *this;
         }
 
-        COwner * GetOrCreate( COwner * owner )
-        {
-            int search = owners.Find( owner );
-            if ( search != owners.ITEM_NOT_FOUND )
-                return owners.At( search );
-            else if ( ! owners.Insert( owner ) ) return nullptr;
-            return owner;
-        }
+        COwnerSPtr GetOrCreateOwner( COwnerSPtr owner ) {
+            // Search owner
+            int search = owners->Find( owner );
 
-        friend ostream & operator<<( ostream & os, CRegister & obj )
-        {
-            os << "CRegister " << &obj << ": " << endl;
-
-            os << "  -  CCarList " << &(obj.cars) << ": " << endl;
-            for ( int i = 0; i < obj.cars.length; i++ )
+            // If found, return existing owner
+            if ( search != owners->ITEM_NOT_FOUND )
             {
-                CCar * car = obj.cars.At( i );
-                os << "     -  CCar " << car << ": " << (*car).rz << ", " << (*car).owner->name << " " << (*car).owner->surname << endl;
+                COwnerSPtr rOwner = owners->At( search );
+                COwnerSPtr newOwner = rOwner.Detach();
 
-                os << "        -  COwnerList " << car->ownerHistory << ": " << endl;
+                // Recover links
+                owners->Remove( owners->Find( rOwner ) );
+                for ( int i = 0; i < rOwner->cars->length; i++ )
+                    rOwner->cars->At( i )->owner = newOwner;
 
-                for ( int o = 0; o < car->ownerHistory->length; o ++)
-                {
-                    os << "           -  COwner " << car->ownerHistory->At( o ) << ": " << car->ownerHistory->At( o )->name << " " << car->ownerHistory->At( o )->surname << endl;
-                }
+                owners->Insert( newOwner );
+                return newOwner;
             }
 
-            os << "  -  COwnerList " << &(obj.owners) << ": " << endl;
-            for ( int i = 0; i < obj.owners.length; i++ )
-            {
-                COwner * ow = obj.owners.At( i );
-                os << "     -  COwner " << ow << ": " << (*ow).name << " " << (*ow).surname << endl;
-            }
+            // If not, clone strings and create new owner
+            char *nName = CStringFuncs::makeCopy( owner->name ),
+                    *nSurname = CStringFuncs::makeCopy( owner->surname );
 
-            cout << endl;
+            COwnerSPtr newOwner = COwnerSPtr( new COwner( nName, nSurname ) );
+            if ( ! owners->Insert( newOwner ) ) throw OwnerNotCopiedException();
 
-            return os;
+            return newOwner;
         }
 
         /**
@@ -650,21 +837,26 @@ class CRegister
         */
         bool AddCar( const char * rz, const char * name, const char * surname )
         {
-            char *nName = CStringFuncs::makeCopy( name ),
-                    *nSurname = CStringFuncs::makeCopy( surname ),
-                    *nRZ = CStringFuncs::makeCopy( rz );
+            // Copy register cars and owners lists if shared
+            CloneRegisterListsIfNeeded();
 
-            // Get or create new owner
-            COwner * owner = this->GetOrCreate( new COwner( nName, nSurname ) );
-            if ( owner == nullptr ) return false;
+            // Get or create new owner (already saves to this->owners, copy strings etc.)
+            COwnerSPtr owner = this->GetOrCreateOwner( COwnerSPtr( new COwner( name, surname ) ) );
 
-            // Create car
-            CCar * car = new CCar( nRZ, owner );
-            if ( !cars.Insert( car ) ) return false;
+            // Copy RZ string
+            char *nRZ = CStringFuncs::makeCopy( rz );
+
+            // Create the car
+            CCarSPtr car = new CCar( nRZ, owner );
+            if ( !cars->Insert( car ) )
+            {
+                delete nRZ; return false;
+            }
 
             // Add to owner's list
-            return owner->cars->Insert( car );
+            owner->cars->Insert( car );
 
+            return true;
         }
 
         /**
@@ -674,16 +866,35 @@ class CRegister
         */
         bool DelCar( const char * rz )
         {
-            CCar * needle = new CCar( rz, nullptr );
-            int searchResult = cars.Find( needle );
-            delete needle;
+            int carOwnerIdx;
 
-            if ( searchResult != cars.ITEM_NOT_FOUND )
+            // Copy register cars and owners lists if shared
+            CloneRegisterListsIfNeeded();
+
+            // Search for the car
+            CCarSPtr needle = CCarSPtr( new CCar( rz, COwnerSPtr() ) );
+            int searchResult = cars->Find( needle );
+
+            // If found, get owner
+            if ( searchResult != cars->ITEM_NOT_FOUND )
             {
-                cars.Remove( searchResult );
-                return true;
+                carOwnerIdx = owners->Find( cars->At( searchResult )->owner );
             }
             else return false;
+
+            // Make car owner copy
+            if ( carOwnerIdx != COwnerList::ITEM_NOT_FOUND )
+                owners->Set( carOwnerIdx, owners->At( carOwnerIdx ).Detach() );
+            else throw ItemNotFoundException();
+
+            // Remove the car from owner's carlist
+            int carIdx = owners->At( carOwnerIdx )->cars->Find( cars->At( searchResult ) );
+            owners->At( carOwnerIdx )->cars->Remove( carIdx );
+
+            // Remove the car from the register carlist
+            cars->Remove( searchResult );
+
+            return true;
         }
 
         /**
@@ -694,25 +905,39 @@ class CRegister
         */
         bool Transfer( const char * rz, const char * nName, const char * nSurname )
         {
-            // Create string copies
-            nName = CStringFuncs::makeCopy( nName );
-            nSurname = CStringFuncs::makeCopy( nSurname );
+            // Copy register cars and owners lists if shared
+            CloneRegisterListsIfNeeded();
 
-            // Get or create new owner
-            COwner * owner = this->GetOrCreate( new COwner( nName, nSurname ) );
-            if ( owner == nullptr ) return false;
+            // Find the car
+            CCarSPtr needle = CCarSPtr( new CCar( rz ) );
+            int searchResult = cars->Find( needle );
 
-            // Find the car and change its owner
-            CCar * needle = new CCar( rz, nullptr );
-            int searchResult = cars.Find( needle );
-            delete needle;
+            // If car doesn't exists
+            if ( searchResult == CCarList::ITEM_NOT_FOUND ) return false;
 
-            if ( searchResult != cars.ITEM_NOT_FOUND )
-            {
-                cars.At( searchResult )->TransferTo( owner );
-                return true;
-            }
+            // Or trying to transfer to the same owner
+            if ( *(cars->At( searchResult )->owner) == COwner( nName, nSurname ) ) return false;
+
+            // Get or create new owner (already saves to this->owners, copy strings etc.)
+            COwnerSPtr oldOwner = this->GetOrCreateOwner( cars->At( searchResult )->owner );
+            COwnerSPtr newOwner = this->GetOrCreateOwner( new COwner( nName, nSurname ) );
+
+            // Delete from old owner's carlist
+            oldOwner->cars->Remove( oldOwner->cars->Find( cars->At( searchResult ) ) );
+
+            // Detach the car ( make copy )
+            if ( searchResult != CCarList::ITEM_NOT_FOUND )
+                cars->Set( searchResult, cars->At( searchResult ).Detach() );
             else return false;
+
+            // Add to new owner's carlist
+            newOwner->cars->Insert( cars->At( searchResult ) );
+
+            cars->At( searchResult )->TransferTo( newOwner );
+
+            newOwner->cars->Insert( cars->At( searchResult ) );
+
+            return true;
         }
 
         /**
@@ -724,12 +949,11 @@ class CRegister
         CCarList ListCars( const char * name, const char * surname ) const
         {
             // Find the owner
-            COwner * needle = new COwner( name, surname );
-            int searchResult = owners.Find( needle );
-            delete needle;
+            COwnerSPtr needle = COwnerSPtr( new COwner( name, surname ) );
+            int searchResult = owners->Find( needle );
 
             // And return his cars
-            return ( (searchResult != owners.ITEM_NOT_FOUND) ? *(owners.At( searchResult )->cars) : CCarList() );
+            return ( (searchResult != owners->ITEM_NOT_FOUND) ? *(owners->At( searchResult )->cars) : CCarList() );
         }
 
         /**
@@ -741,12 +965,11 @@ class CRegister
         int CountCars( const char * name, const char * surname ) const
         {
             // Find the owner
-            COwner * needle = new COwner( name, surname );
-            int searchResult = owners.Find( needle );
-            delete needle;
+            COwnerSPtr needle = COwnerSPtr( new COwner( name, surname ) );
+            int searchResult = owners->Find( needle );
 
             // And return his count of cars
-            return searchResult != owners.ITEM_NOT_FOUND ? owners.At( searchResult )->cars->length : 0;
+            return searchResult != owners->ITEM_NOT_FOUND ? owners->At( searchResult )->cars->length : 0;
         }
 
         /**
@@ -757,12 +980,17 @@ class CRegister
         COwnerList ListOwners( const char * rz ) const
         {
             // Find the car
-            CCar * needle = new CCar( rz, nullptr );
-            int searchResult = cars.Find( needle );
-            delete needle;
+            CCarSPtr needle = CCarSPtr( new CCar( rz ) );
+            int searchResult = cars->Find( needle );
 
-            // And return his count of cars
-            return searchResult != cars.ITEM_NOT_FOUND ? *(cars.At( searchResult )->ownerHistory) : COwnerList();
+            // Reset list counter and return the owner list
+            if ( searchResult != cars->ITEM_NOT_FOUND )
+            {
+                cars->At( searchResult )->ownerHistory->Reset();
+                return *(cars->At( searchResult )->ownerHistory);
+            }
+            else
+                return COwnerList();
         }
 
         /**
@@ -773,23 +1001,37 @@ class CRegister
         int CountOwners( const char * rz ) const
         {
             // Find the car
-            CCar * needle = new CCar( rz, nullptr );
-            int searchResult = cars.Find( needle );
-            delete needle;
+            CCarSPtr needle = CCarSPtr( new CCar( rz ) );
+            int searchResult = cars->Find( needle );
 
             // And return his count of cars
-            CCar * found = cars.At( searchResult );
-            return searchResult != cars.ITEM_NOT_FOUND ? found->ownerHistory->length : 0;
+            if ( searchResult != cars->ITEM_NOT_FOUND )
+            {
+                CCarSPtr found = cars->At( searchResult );
+                return found->ownerHistory->length;
+            } else return 0;
         }
 
     private:
-        CCarList cars;
-        CSortedOwnerList owners;
+        CCarListSPtr cars;
+        CSortedOwnerListSPtr owners;
+        bool sharedCarList, sharedOwnerList;
+
+        void CloneRegisterListsIfNeeded()
+        {
+            if ( sharedOwnerList )
+                owners.Detach();
+            if ( sharedCarList )
+                cars.Detach();
+
+            sharedOwnerList = sharedCarList = false;
+        }
 };
 
 #ifndef __PROGTEST__
 int main ( void )
 {
+
     char name[50], surname[50];
     CRegister  b0;
     assert ( b0 . AddCar ( "ABC-12-34", "John", "Smith" ) == true );
@@ -799,6 +1041,7 @@ int main ( void )
     strncpy ( name, "Peter", sizeof ( name ) );
     strncpy ( surname, "Smith", sizeof ( surname ) );
     assert ( b0 . AddCar ( "XYZ-11-22", name, surname ) == true );
+
     assert ( b0 . CountCars ( "John", "Hacker" ) == 1 );
     for ( CCarList l = b0 . ListCars ( "John", "Hacker" ); ! l . AtEnd (); l . Next () )
         cout << l . RZ () << endl;
@@ -865,10 +1108,12 @@ int main ( void )
         cout << l . RZ () << endl;
     // empty output
 
-    assert ( b2 . CountOwners ( "AAA-AA-AA" ) == 0 );
+    assert ( b2 . CountOwners ( "AAA-AA-AA" ) == 0 );                         // <<<<<<<< record :(((
     for ( COwnerList l = b2 . ListOwners ( "AAA-AA-AA" ); ! l . AtEnd (); l . Next () )
         cout << l . Surname () << ", " << l . Name () << endl;
     // the following 0 owners in that order:
+
+
 
     return 0;
 }
