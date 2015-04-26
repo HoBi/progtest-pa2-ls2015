@@ -523,29 +523,24 @@ public:
     {
         this->name = "";
         this->surname = "";
-        this->cars = new CCarList();
+        this->cars = CCarListSPtr( new CCarList() );
     }
 
     COwner( const char * name, const char * surname )
     {
         this->name = name;
         this->surname = surname;
-        this->cars = new CCarList();
+        this->cars = CCarListSPtr( new CCarList() );
     }
 
     COwner( const COwner & own )
     {
         this->name = CStringFuncs::makeCopy( own.name );
         this->surname = CStringFuncs::makeCopy( own.surname );
-        this->cars = new CCarList();
+        this->cars = CCarListSPtr( new CCarList() );
 
         for ( int i = 0; i < own.cars->length; i++ )
             this->cars->Insert( own.cars->At( i ) );
-    }
-
-    ~COwner()
-    {
-        delete cars;
     }
 
     COwner & operator=( const COwner & own )
@@ -554,7 +549,7 @@ public:
         {
             this->name = CStringFuncs::makeCopy( own.name );
             this->surname = CStringFuncs::makeCopy( own.surname );
-            this->cars = new CCarList();
+            this->cars = CCarListSPtr( new CCarList() );
 
             for ( int i = 0; i < own.cars->length; i++ )
                 this->cars->Insert( own.cars->At( i ) );
@@ -579,7 +574,7 @@ public:
     }
 
     const char * name, * surname;
-    CCarList * cars;
+    CCarListSPtr cars;
 };
 typedef SharedPtr<COwner> COwnerSPtr;
 
