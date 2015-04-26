@@ -551,6 +551,11 @@ public:
             this->cars->Insert( own.cars->At( i ) );
     }
 
+    ~COwner()
+    {
+        delete cars;
+    }
+
     COwner & operator=( const COwner & own )
     {
         if ( &own != this )
@@ -682,14 +687,14 @@ class CCar
         {
             this->rz = "";
             this->owner = nullptr;
-            this->ownerHistory = new COwnerList();
+            this->ownerHistory = COwnerListSPtr( new COwnerList() );
         }
 
         CCar( const char * rz, COwnerSPtr owner )
         {
             this->rz = rz;
             this->owner = owner;
-            this->ownerHistory = new COwnerList();
+            this->ownerHistory = COwnerListSPtr( new COwnerList() );
             ownerHistory->Insert( owner, 0 );
         }
 
@@ -714,7 +719,7 @@ class CCar
             {
                 rz = CStringFuncs::makeCopy( car.rz );
                 owner = car.owner;
-                ownerHistory = new COwnerList();
+                ownerHistory = COwnerListSPtr( new COwnerList() );
 
                 for ( int i = 0; i < car.ownerHistory->length; i++ )
                     this->ownerHistory->Set( i, car.ownerHistory->At( i ) );
