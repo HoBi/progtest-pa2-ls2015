@@ -804,7 +804,7 @@ class CRegister
             int search = owners->Find( owner );
 
             // If found, return existing owner
-            if ( search != owners->ITEM_NOT_FOUND )
+            if ( search != -1 )
             {
                 COwnerSPtr rOwner = owners->At( search );
                 COwnerSPtr newOwner = rOwner.Detach();
@@ -876,7 +876,7 @@ class CRegister
             int searchResult = cars->Find( needle );
 
             // If found, get owner
-            if ( searchResult != cars->ITEM_NOT_FOUND )
+            if ( searchResult != -1 )
             {
                 carOwnerIdx = owners->Find( cars->At( searchResult )->owner );
             }
@@ -953,7 +953,7 @@ class CRegister
             int searchResult = owners->Find( needle );
 
             // And return his cars
-            return ( (searchResult != owners->ITEM_NOT_FOUND) ? *(owners->At( searchResult )->cars) : CCarList() );
+            return ( (searchResult != -1 ) ? *(owners->At( searchResult )->cars) : CCarList() );
         }
 
         /**
@@ -969,7 +969,7 @@ class CRegister
             int searchResult = owners->Find( needle );
 
             // And return his count of cars
-            return searchResult != owners->ITEM_NOT_FOUND ? owners->At( searchResult )->cars->length : 0;
+            return searchResult != -1 ? owners->At( searchResult )->cars->length : 0;
         }
 
         /**
@@ -984,7 +984,7 @@ class CRegister
             int searchResult = cars->Find( needle );
 
             // Reset list counter and return the owner list
-            if ( searchResult != cars->ITEM_NOT_FOUND )
+            if ( searchResult != -1 )
             {
                 cars->At( searchResult )->ownerHistory->Reset();
                 return *(cars->At( searchResult )->ownerHistory);
@@ -1005,7 +1005,7 @@ class CRegister
             int searchResult = cars->Find( needle );
 
             // And return his count of cars
-            if ( searchResult != cars->ITEM_NOT_FOUND )
+            if ( searchResult != -1 )
             {
                 CCarSPtr found = cars->At( searchResult );
                 return found->ownerHistory->length;
