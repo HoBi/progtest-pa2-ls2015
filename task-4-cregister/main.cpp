@@ -211,7 +211,7 @@ public:
 
     virtual ~CList()
     {
-
+        delete[] list;
     }
 
     virtual CList & operator=( const CList & list )
@@ -848,7 +848,7 @@ class CRegister
             char *nName = CStringFuncs::makeCopy( name );
             char *nSurname = CStringFuncs::makeCopy( surname );
             CCarSPtr car = new CCar( nRZ, new COwner( nName, nSurname ) );
-            if ( cars->Find( car ) != -1 ) { delete nRZ; return false; }
+            if ( cars->Find( car ) != -1 ) { delete[] nRZ; return false; }
 
             // Copy register cars and owners lists if shared
             CloneRegisterListsIfNeeded();
