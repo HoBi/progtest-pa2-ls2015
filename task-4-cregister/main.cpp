@@ -543,6 +543,12 @@ public:
             this->cars->Insert( own.cars->At( i ) );
     }
 
+    ~COwner()
+    {
+        delete[] name;
+        delete[] surname;
+    }
+
     COwner & operator=( const COwner & own )
     {
         if ( &own != this )
@@ -1140,7 +1146,6 @@ int main ( void )
     for ( COwnerList l = b2 . ListOwners ( "AAA-AA-AA" ); ! l . AtEnd (); l . Next () )
         cout << l . Surname () << ", " << l . Name () << endl;
     // the following 0 owners in that order:
-
     return 0;
 }
 #endif /* __PROGTEST__ */
