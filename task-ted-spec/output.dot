@@ -1,0 +1,40 @@
+digraph {
+	0 [shape=house label="/"]
+	1 [shape=circle label="html"]
+	2 [shape=diamond label="lang\nen"]
+	3 [shape=diamond label="xml:lang\nen"]
+	4 [shape=diamond label="xmlns\nhttp://www.w3.org/1999/xhtml"]
+	5 [shape=circle label="head"]
+	6 [shape=circle label="title"]
+	7 [shape=plaintext label="FIT CVUT"]
+	8 [shape=circle label="body"]
+	9 [shape=plaintext label="Markup used in this document is compatible with"]
+	10 [shape=circle label="b"]
+	11 [shape=plaintext label="XHTML"]
+	12 [shape=oval label="nbsp"]
+	13 [shape=plaintext label=" 1"]
+	14 [shape=plaintext label=". It should not contain some characters, e.g.,"]
+	15 [shape=triangle label="editor\nemph"]
+	16 [shape=trapezium label="<"]
+	17 [shape=note label=" this does not display"]
+	18 [shape=plaintext label="."]
+
+	0 -> 1
+	1 -> 2
+	1 -> 3
+	1 -> 4
+	1 -> 5
+	1 -> 8
+	5 -> 6
+	6 -> 7
+	8 -> 9
+	8 -> 10
+	8 -> 14
+	8 -> 15
+	8 -> 16
+	8 -> 17
+	8 -> 18
+	10 -> 11
+	10 -> 12
+	10 -> 13
+}
