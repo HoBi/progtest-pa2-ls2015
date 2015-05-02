@@ -9,60 +9,244 @@
 #include <list>
 #include <map>
 #include <algorithm>
+
 using namespace std;
 
 class CResult
 {
 public:
-    CResult ( const string & name,
-              unsigned int   studentID,
-              const string & test,
-              int            result )
-            : m_Name ( name ), m_StudentID ( studentID ),
-              m_Test ( test ), m_Result ( result ) { }
-    string         m_Name;
-    unsigned int   m_StudentID;
-    string         m_Test;
-    int            m_Result;
+    CResult ( const string & name, unsigned int   studentID, const string & test, int result ) :
+            m_Name ( name ), m_StudentID ( studentID ), m_Test ( test ), m_Result ( result )
+    { }
+
+    string m_Name;
+    unsigned int m_StudentID;
+    string m_Test;
+    int m_Result;
 };
 #endif /* __PROGTEST__ */
 
+string trimString( string &t )
+{
+    t.erase( t.begin(), find_if( t.begin(), t.end(), not1( ptr_fun<int, int>( isspace ) ) ) );
+    t.erase( find_if( t.rbegin(), t.rend(), not1( ptr_fun<int, int>( isspace ) ) ).base(), t.end() );
+    return t;
+    // - inspired on stackoverflow.com/questions/216823
+}
+
+bool cmp_ID( const CResult &lhs, const CResult &rhs )
+{
+    return lhs.m_StudentID < rhs.m_StudentID;
+}
+
+bool cmp_Name( const CResult &lhs, const CResult &rhs )
+{
+    return lhs.m_Name < rhs.m_Name;
+}
+
+bool cmp_Result( const CResult &lhs, const CResult &rhs )
+{
+    return lhs.m_Result > rhs.m_Result;
+}
+
 class CStudent
 {
-private:
-    const string name, surname;
-    unsigned int ID;
-
-};
-
-struct CCard
-{
 public:
+    string name;
     unsigned int ID;
-    CStudent * student;
+    list<string> cards;
 };
 
 class CExam
 {
 public:
-    static const int SORT_NONE   = 0;
-    static const int SORT_ID     = 1;
-    static const int SORT_NAME   = 2;
-    static const int SORT_RESULT = 3;
+    static const int SORT_NONE = 0, SORT_ID = 1, SORT_NAME = 2, SORT_RESULT = 3;
 
-    bool           Load        ( istream      & cardMap );
-    bool           Register    ( const string & cardID,
-                                 const string & test );
-    bool           Assess      ( unsigned int   studentID,
-                                 const string & test,
-                                 int            result );
-    list<CResult>  ListTest    ( const string & test,
-                                 int            sortBy ) const;
-    set<string>    ListMissing ( const string & test ) const;
+    ~CExam()
+    {
+        // Free all students
+        for ( const auto &it : students ) {
+            delete it.second;
+        }
+
+        // Free all missing results
+        for ( const auto &it : missing ) {
+            for ( const auto &ot : it.second ) {
+                delete ot.second;
+            }
+        }
+
+        // Free all resolved results
+        for ( const auto &it : resolved ) {
+            for ( const auto &ot : it.second ) {
+                delete ot;
+            }
+        }
+    }
+
+    bool Load( istream &cardMap )
+    {
+        char c;
+        list<CStudent*> newStudents;
+
+        while ( !cardMap.eof() )
+        {
+            CStudent *newStudent = new CStudent();
+            newStudents.insert( newStudents.end(), newStudent );
+
+            c = '\0';
+
+            // Read ID
+            cardMap >> newStudent->ID;
+            cardMap.get( c );
+            if ( c != ':' ) {
+                if (!cardMap.eof()) return cancelLoad(newStudents);
+                else {
+                    newStudents.remove(newStudent);
+                    delete newStudent;
+                    break;
+                }
+            }
+
+            // Check ID uniqueness
+            if ( students.count( newStudent->ID ) > 0 )
+            {
+                return cancelLoad( newStudents );
+            }
+
+            // Read name
+            getline( cardMap, newStudent->name, ':' );
+
+            // Read assigned cards line
+            string cardsString;
+            stringstream cardsStringStream;
+            getline( cardMap, cardsString );
+            cardsStringStream.str( cardsString );
+
+            // And read all the cards and save them
+            while ( !cardsStringStream.eof() )
+            {
+                getline( cardsStringStream, cardsString, ',' );
+                trimString( cardsString );
+                if ( cardsString != "" && cards.count( cardsString ) == 0 )
+                    newStudent->cards.push_back( cardsString );
+                else
+                    return cancelLoad( newStudents );
+            }
+        }
+
+        // Add new students
+        for ( CStudent *student : newStudents)
+        {
+            students[ student->ID ] = student;
+            for ( string card : student->cards )
+            {
+                cards[ card ] = student;
+            }
+        }
+
+
+        return cardMap.eof();
+    }
+
+    bool Register( const string &cardID, const string &test )
+    {
+        // Check if card exists
+        if ( cards.count( cardID ) > 0 )
+        {
+            // Get student by card
+            CStudent *student = cards.at( cardID );
+
+            // Make sure the student isn't registered already
+            if ( registered[ test ].count( student->ID ) > 0 ) return false;
+
+            // Register
+            registered[ test ].insert( student->ID );
+
+            // Create new test and categorize to missing
+            missing[test].insert( missing[test].end(),
+                    make_pair( student->ID, new CResult( student->name, student->ID, test, -1 ) )
+            );
+
+            return true;
+        }
+        else return false;
+    }
+
+    bool Assess( unsigned int studentID, const string &test, int result )
+    {
+        // Check if the student exists
+        if ( students.count( studentID ) == 0 ) return false;
+
+        // Check if the student doesn't have result in this test
+        if ( resolvedStudents[test].count( studentID ) > 0 ) return false;
+
+        // Find the missing test result
+        if ( missing[test].count( studentID ) > 0 )
+        {
+            CResult *resultInst = missing[test].at( studentID );
+
+            // Store the result
+            resultInst->m_Result = result;
+
+            // Remove from missing
+            missing[test].erase( studentID );
+
+            // Categorize the result as resolved
+            resolved[test].push_back( resultInst );
+
+            // Mark student as resolved
+            resolvedStudents[test].insert( studentID );
+
+            return true;
+        }
+        else return false;
+    }
+
+    list<CResult> ListTest( const string &test, int sortBy ) const
+    {
+        // Clone the list
+        list<CResult> list;
+        if ( resolved.count( test ) > 0 )
+            for ( CResult *resLink : resolved.at( test ) )
+                list.push_back( *resLink );
+
+        // Sort it, if needed
+        if ( sortBy == CExam::SORT_ID ) list.sort( cmp_ID );
+        if ( sortBy == CExam::SORT_NAME ) list.sort( cmp_Name );
+        if ( sortBy == CExam::SORT_RESULT ) list.sort( cmp_Result );
+
+        return list;
+    }
+
+    set<string> ListMissing( const string &test ) const
+    {
+        set<string> students;
+
+        if ( missing.count( test ) > 0 )
+        {
+            for (const auto &ot : missing.at(test)) {
+                students.insert(ot.second->m_Name);
+            }
+        }
+        return students;
+    }
 
 private:
-    vector<CCard> cards;
-    vector<CStudent*> studentsById;
+    map<string, CStudent*> cards;
+    map<unsigned int, CStudent*> students;
+    map<string, set<unsigned int>> registered;
+    map<string, vector<CResult*>> resolved;
+    map<string, set<unsigned int>> resolvedStudents;
+    map<string, map<unsigned int, CResult*>> missing;
+
+    bool cancelLoad( list<CStudent*> createdStudents )
+    {
+        for ( CStudent* student : createdStudents )
+            delete student;
+
+        return false;
+    }
 };
 
 #ifndef __PROGTEST__
@@ -150,7 +334,6 @@ int main ( void )
     assert ( toString ( m . ListMissing ( "PA2 - #3" ) ) ==
              "Gates Bill\n"
                      "Smith John\n" );
-
     return 0;
 }
 #endif /* __PROGTEST__ */
