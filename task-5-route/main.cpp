@@ -17,6 +17,8 @@
 using namespace std;
 #endif /* __PROGTEST__ */
 
+#define NODEBUG
+
 class NoRouteException { };
 class RootNodeNotFound : NoRouteException {};
 
@@ -26,12 +28,11 @@ template <typename _T, typename _E>
 class CEdge
 {
 public:
-    _E *properties;
+    const _E properties;
     CNode<_T, _E> *node1, *node2;
 
-    CEdge( _E *properties, CNode<_T, _E> *node1, CNode<_T, _E> *node2 )
+    CEdge( const _E &props, CNode<_T, _E> *node1, CNode<_T, _E> *node2 ) : properties( props )
     {
-        this->properties = properties;
         this->node1 = node1;
         this->node2 = node2;
     }
@@ -44,10 +45,8 @@ public:
     _T content;
     vector<CEdge<_T, _E>*> edges;
 
-    CNode( _T content )
-    {
-        this->content = content;
-    }
+    CNode( _T content ) : content( content )
+    { }
 
     void AssignEdge( CEdge<_T, _E> *edge )
     {
@@ -59,32 +58,42 @@ template <typename _T, typename _E>
 class CRoute
 {
 public:
-    CRoute()
-    {
-
-    }
 
     ~CRoute()
     {
+        // Clean up all nodes
+        for ( pair<_T,CNode<_T,_E>*> node : nodes )
+            delete node.second;
 
+        // Clean up all edges
+        for ( CEdge<_T,_E> *edge : edges )
+            delete edge;
     }
 
     CRoute &Add( _T from, _T to, _E edge )
     {
+        // Get the nodes and create edge
         auto nodeFrom = FindOrCreateNode( from );
         auto nodeTo = FindOrCreateNode( to );
-        auto newEdge = new CEdge<_T, _E>( &edge, nodeFrom, nodeTo );
+        auto newEdge = new CEdge<_T, _E>( edge, nodeFrom, nodeTo );
+
+        // Insert edge to edge repo
+        edges.insert( edges.end(), newEdge );
+
+        // Assign created edge to nodes
         nodeFrom->AssignEdge( newEdge );
         nodeTo->AssignEdge( newEdge );
+
+        // Return this for chaining function
         return *this;
     }
 
-    list<_T> Find( _T from, _T to )
+    list<_T> Find( const _T &from, const _T &to ) const
     {
-        return Find( from, to, [] () { return true; } );
+        return Find( from, to, [] ( const _E & x ) { return true; }  );
     }
 
-    template<typename _F> list<_T> Find( _T from, _T to, const _F & filter )
+    template<typename _F> list<_T> Find( const _T &from, const _T &to, const _F & filter ) const
     {
         queue<CNode<_T, _E>*> searchQueue;
         set<_T> explored;
@@ -95,9 +104,11 @@ public:
         if ( nodes.count( from ) )
             searchQueue.push( nodes.at( from ) );
         else
-            throw RootNodeNotFound();
+            throw NoRouteException();
 
+        // Mark from node as explored
         explored.insert( from );
+
 
         // Find the route
         while ( ! searchQueue.empty() )
@@ -106,12 +117,13 @@ public:
             CNode<_T, _E> *node = searchQueue.front();
             searchQueue.pop();
 
-            cout << " # " << node->content << endl;
+            #ifdef DEBUG
+                cout << " -> " << node->content << endl;
+            #endif
 
             // Did we found it?
             if ( node->content == to )
             {
-                cout << " - * FOUND " << endl;
                 // Reconstruct the route
                 CNode<_T, _E> *rnode = node;
 
@@ -123,22 +135,38 @@ public:
                 route.push_front( rnode->content );
             }
 
+            #ifdef DEBUG
+                        cout << " - new in queue: ";
+            #endif
 
             // Expand
             for ( CEdge<_T, _E> *edge : node->edges )
             {
                 CNode<_T, _E> *other = edge->node1 == node ? edge->node2 : edge->node1;
-                // todo: if fits in filter
-                if ( filter( edge->properties ) && explored.count( other->content ) == 0 )
+                if ( filter( edge->properties ) == true && explored.count( other->content ) == 0 )
                 {
-                    cout << "Adding " << other->content << " to queue, ";
+                    #ifdef DEBUG
+                        cout << other->content << ",";
+                    #endif
                     searchQueue.push( other );
                     explored.insert( other->content );
                     previous[other] = node;
-                    cout << node->content << " is previous" << endl;
                 }
             }
+
+            #ifdef DEBUG
+                cout << endl;
+            #endif
         }
+
+        if ( route.size() == 0 ) throw NoRouteException();
+
+        #ifdef DEBUG
+                cout << "Route: ";
+                for ( _T node : route )
+                    cout << node << " > ";
+                cout << endl;
+        #endif
 
         return route;
     }
@@ -231,7 +259,6 @@ int main ( void )
             . Add ( "Paris", "Dresden",  CTrain ( "SNCF", 250 ) );
 
     list<string> r1 = lines . Find ( "Berlin", "Linz" );
-    cout << toText( r1 );
     assert ( toText ( r1 ) == "Berlin > Prague > Linz" );
 
     list<string> r2 = lines . Find ( "Linz", "Berlin" );
