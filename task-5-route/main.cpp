@@ -90,7 +90,6 @@ public:
         set<_T> explored;
         list<_T> route;
         map<CNode<_T, _E>*,CNode<_T, _E>*> previous;
-        CNode<_T, _E> *node = nullptr;
 
         // Find the start node
         if ( nodes.count( from ) )
@@ -104,33 +103,44 @@ public:
         while ( ! searchQueue.empty() )
         {
             // Dequeue
-            CNode<_T, _E> *prev = node;
-            node = searchQueue.front();
+            CNode<_T, _E> *node = searchQueue.front();
             searchQueue.pop();
 
-            previous[node] = prev;
-
-            cout << " # " << node->content << "( prev: " << (prev == NULL ? "start" : prev->content) << ")" << endl;
+            cout << " # " << node->content << endl;
 
             // Did we found it?
             if ( node->content == to )
+            {
                 cout << " - * FOUND " << endl;
+                // Reconstruct the route
+                CNode<_T, _E> *rnode = node;
+
+                while ( rnode->content != from )
+                {
+                    route.push_front( rnode->content );
+                    rnode = previous[ rnode ];
+                }
+                route.push_front( rnode->content );
+            }
+
 
             // Expand
             for ( CEdge<_T, _E> *edge : node->edges )
             {
                 CNode<_T, _E> *other = edge->node1 == node ? edge->node2 : edge->node1;
                 // todo: if fits in filter
-                if ( true && explored.count( other->content ) == 0 )
+                if ( filter( edge->properties ) && explored.count( other->content ) == 0 )
                 {
-                    cout << "Adding " << other->content << " to queue " << endl;
+                    cout << "Adding " << other->content << " to queue, ";
                     searchQueue.push( other );
                     explored.insert( other->content );
+                    previous[other] = node;
+                    cout << node->content << " is previous" << endl;
                 }
             }
-
-
         }
+
+        return route;
     }
 
 private:
@@ -221,6 +231,7 @@ int main ( void )
             . Add ( "Paris", "Dresden",  CTrain ( "SNCF", 250 ) );
 
     list<string> r1 = lines . Find ( "Berlin", "Linz" );
+    cout << toText( r1 );
     assert ( toText ( r1 ) == "Berlin > Prague > Linz" );
 
     list<string> r2 = lines . Find ( "Linz", "Berlin" );
