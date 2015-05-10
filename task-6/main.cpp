@@ -315,13 +315,15 @@ public:
 
     CTable &operator=( CTable rhs )
     {
-        this->swap( *this, rhs );
+        if ( &rhs != this )
+            this->swap( *this, rhs );
         return *this;
     }
 
     void SetCell( unsigned int row, unsigned int col, const CCell &newContent )
     {
         CCell *clone = newContent.clone();
+        clone->beforeRender();
         delete cells[ row * cols + col ];
         cells[ row * cols + col ] = clone;
     }
@@ -384,6 +386,12 @@ public:
             InsertRow( ss.str() );
             ss.str("");
 
+            // Iterate through each column
+            for ( int k = 0; k < cols; k++ )
+            {
+                cells[ i * cols + k ]->beforeRender();
+            }
+
             // Iterate through lines in this row
             for ( unsigned int j = 0; j < rowsHeight[ i ]; j++ )
             {
@@ -392,7 +400,6 @@ public:
                 // Iterate through each column line of this row
                 for ( int k = 0; k < cols; k++ )
                 {
-                    cells[ i * cols + k ]->beforeRender();
                     ss << cells[ i * cols + k ]->render( j, colsWidth[ k ], rowsHeight[ i ] );
 
                     // Col divider
@@ -477,15 +484,3 @@ private:
         height++;
     }
 };
-
-int main ( void )
-{
-    ostringstream oss;
-
-    CTable t0(10, 10);
-
-    t0.SetCell( 0, 0, CText( "tykravo" ) );
-    t0.SetCell( 0, 1, CText( "to nepoladim nikdy" ) );
-
-    return 0;
-}
