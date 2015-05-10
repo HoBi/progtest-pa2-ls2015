@@ -26,43 +26,13 @@ public:
     virtual ~CCell()
     {
 
-    }
+    };
+    virtual CCell *clone() const = 0;
 
-    string render( unsigned int line, int outWidth, int outHeight ) const
-    {
-        int marginTop, marginLeft;
+    virtual string render( unsigned int line, unsigned int outWidth, unsigned int outHeight ) const = 0;
 
-        // Make sure the size specified is correct
-        if ( outWidth < width || outHeight < height )
-            throw WrongSizeSpecifiedException();
-
-        // todo: this is prolly wrong, this is gonna be computed every render call
-
-        // Compute top margin
-        marginTop = align == ALIGN_CENTER ? ( outHeight - height ) / 2 : 0;
-
-        // Check if this isn't just blank line
-        if ( line < marginTop || line >= marginTop + height ) return string( outWidth, ' ' );
-
-        // Compute left margin
-        marginLeft = ( align == ALIGN_CENTER ? ( outWidth - width ) / 2 : ( align == ALIGN_RIGHT ? outWidth - width : 0 ) );
-
-        return string( marginLeft, ' ' ) + content.at( line ) + string( outWidth - ( marginLeft + content.at( line ).length() ), ' ' );
-    }
-
-    int width, height, align;
-    vector<string> content;
-
-protected:
-    void InsertRow( const string &row )
-    {
-        content.insert( content.end(), row );
-
-        int nwidth = row.length();
-
-        if ( nwidth > width ) width = nwidth;
-        height++;
-    }
+    unsigned int width, height;
+    int align;
 };
 
 class CEmpty : public CCell
@@ -72,13 +42,30 @@ public:
     {
         width = height = 0;
         align = ALIGN_LEFT;
-        content.insert( content.end(), "" );
     }
 
-    ~CEmpty()
+    CEmpty( const CEmpty &obj )
     {
-
+        align = obj.align;
+        width = obj.width;
+        height = obj.height;
     }
+
+    CEmpty *clone() const
+    {
+        return new CEmpty( *this );
+    }
+
+    string render( unsigned int line, unsigned int outWidth, unsigned int outHeight ) const
+    {
+        // Make sure the size specified is correct
+        if ( outWidth < width || outHeight < height )
+            throw WrongSizeSpecifiedException();
+
+        return string( outWidth, ' ' ) ;
+    }
+
+protected:
 };
 
 class CText : public CCell
@@ -102,9 +89,26 @@ public:
         this->align = align;
     }
 
+    CText( const CText &obj )
+    {
+        for ( string *line : obj.content )
+        {
+            content.insert( content.end( ), new string( *line ) );
+        }
+        align = obj.align;
+        width = obj.width;
+        height = obj.height;
+    }
+
+    CText *clone() const
+    {
+        return new CText( *this );
+    }
+
     ~CText()
     {
-
+        for ( string *line : content )
+            delete line;
     }
 
     CText &SetText( const string &content )
@@ -116,6 +120,11 @@ public:
 
         width = height = 0;
 
+        for ( string *line : this->content )
+            delete line;
+
+        this->content.clear();
+
         while ( ! ss.eof() )
         {
             getline( ss, buf );
@@ -123,6 +132,43 @@ public:
         }
 
         return *this;
+    }
+
+    string render( unsigned int line, unsigned int outWidth, unsigned int outHeight ) const
+    {
+        unsigned int marginTop, marginLeft;
+
+        // Make sure the size specified is correct
+        if ( outWidth < width || outHeight < height )
+            throw WrongSizeSpecifiedException();
+
+        // todo: this is prolly wrong, this is gonna be computed every render call
+
+        // Compute top margin
+        marginTop = align == ALIGN_CENTER ? ( outHeight - height ) / 2 : 0;
+
+        // Check if this isn't just blank line
+        if ( line < marginTop || line >= marginTop + height ) return string( outWidth, ' ' );
+
+        int contentWidth = content.at( line - marginTop )->length();
+
+        // Compute left margin
+        marginLeft = ( align == ALIGN_CENTER ? ( outWidth - contentWidth ) / 2 : ( align == ALIGN_RIGHT ? outWidth - contentWidth : 0 ) );
+
+        return string( marginLeft, ' ' ) + *(content.at( line - marginTop )) + string( outWidth - ( marginLeft + contentWidth ), ' ' );
+    }
+
+    vector<string*> content;
+
+protected:
+    void InsertRow( const string &row )
+    {
+        content.insert( content.end(), new string( row ) );
+
+        unsigned int nwidth = row.length();
+
+        if ( nwidth > width ) width = nwidth;
+        height++;
     }
 };
 
@@ -135,15 +181,69 @@ public:
         width = height = 0;
     }
 
+    CImage( const CImage &obj )
+    {
+        for ( string *line : obj.content )
+        {
+            content.insert( content.end( ), new string( *line ) );
+        }
+        align = obj.align;
+        width = obj.width;
+        height = obj.height;
+    }
+
     ~CImage()
     {
+        for ( string *line : content )
+            delete line;
+    }
 
+    CImage *clone() const
+    {
+        return new CImage( *this );
     }
 
     CImage &AddRow( const string &row )
     {
         InsertRow( row );
         return *this;
+    }
+
+    string render( unsigned int line, unsigned int outWidth, unsigned int outHeight ) const
+    {
+        unsigned int marginTop, marginLeft;
+
+        // Make sure the size specified is correct
+        if ( outWidth < width || outHeight < height )
+            throw WrongSizeSpecifiedException();
+
+        // todo: this is prolly wrong, this is gonna be computed every render call
+
+        // Compute top margin
+        marginTop = align == ALIGN_CENTER ? ( outHeight - height ) / 2 : 0;
+
+        // Check if this isn't just blank line
+        if ( line < marginTop || line >= marginTop + height ) return string( outWidth, ' ' );
+
+        int contentWidth = content.at( line - marginTop )->length();
+
+        // Compute left margin
+        marginLeft = ( align == ALIGN_CENTER ? ( outWidth - contentWidth ) / 2 : ( align == ALIGN_RIGHT ? outWidth - contentWidth : 0 ) );
+
+        return string( marginLeft, ' ' ) + *(content.at( line - marginTop )) + string( outWidth - ( marginLeft + contentWidth ), ' ' );
+    }
+
+    vector<string*> content;
+
+protected:
+    void InsertRow( const string &row )
+    {
+        content.insert( content.end(), new string( row ) );
+
+        unsigned int nwidth = row.length();
+
+        if ( nwidth > width ) width = nwidth;
+        height++;
     }
 };
 
@@ -153,28 +253,52 @@ public:
     CTable( unsigned int rows, unsigned int cols ) : rows( rows ), cols ( cols )
     {
         cells = new CCell*[ rows * cols ];
-        rowsHeight = new int[ rows ];
-        colsWidth = new int[ cols ];
+        rowsHeight = new unsigned int[ rows ];
+        colsWidth = new unsigned int[ cols ];
 
-        for( int i = 0; i < rows * cols; i++ ) cells[ i ] = new CEmpty();
+        for( unsigned int i = 0; i < rows * cols; i++ ) cells[ i ] = new CEmpty();
     }
 
-    CTable &SetCell( unsigned int row, unsigned int col, CCell newContent )
+    CTable ( const CTable &obj ) : rows( obj.rows ), cols ( obj.cols ), width( obj.width ), height( obj.height )
     {
-        // todo: value escapes local scope
-        cells[ row * cols + col ] = new CCell( newContent );
+        rowsHeight = new unsigned int[ rows ];
+        for ( int i = 0; i < rows; i++ ) rowsHeight[ i ] = obj.rowsHeight[ i ];
+        colsWidth = new unsigned int[ cols ];
+        for ( int i = 0; i < cols; i++ ) colsWidth[ i ] = obj.colsWidth[ i ];
+
+        cells = new CCell*[ rows*cols ];
+        for ( int i = 0; i < rows*cols; i++ )
+            cells[ i ] = obj.cells[ i ]->clone();
+    }
+
+    ~CTable()
+    {
+        for ( int i = 0; i < rows*cols; i++ )
+            delete cells[ i ];
+
+        delete[] cells;
+
+        delete[] rowsHeight;
+        delete[] colsWidth;
+    }
+
+    CTable &operator=( CTable rhs )
+    {
+        this->swap( *this, rhs );
         return *this;
     }
 
-    CTable &SetCell( unsigned int row, unsigned int col, CCell *newContent )
+    CTable &SetCell( unsigned int row, unsigned int col, const CCell &newContent )
     {
-        cells[ row * cols + col ] = newContent;
+        CCell *clone = newContent.clone();
+        delete cells[ row * cols + col ];
+        cells[ row * cols + col ] = clone;
         return *this;
     }
 
-    CCell &GetCell( unsigned int row, unsigned int col )
+    CCell &GetCell( unsigned int row, unsigned int col ) const
     {
-        return *cells[ row * cols + col ];
+        return *(cells[ row * cols + col ]);
     }
 
     void refreshRowColsSizes()
@@ -190,9 +314,9 @@ public:
                 colsWidth[ i % cols ] = cells[ i ]->width;
 
             }
-            if ( cells[ i ]->height > rowsHeight[ i / rows ] )
+            if ( cells[ i ]->height > rowsHeight[ i / cols ] )
             {
-                rowsHeight[ i / rows ] = cells[ i ]->height;
+                rowsHeight[ i / cols ] = cells[ i ]->height;
             }
         }
 
@@ -234,11 +358,13 @@ public:
         // Iterate through all rows in table
         for ( int i = 0; i < obj.rows; i++ )
         {
-            os << divider << endl << "|";
+            os << divider << endl;
 
             // Iterate through lines in this row
-            for ( int j = 0; j < obj.rowsHeight[ i ]; j++ )
+            for ( unsigned int j = 0; j < obj.rowsHeight[ i ]; j++ )
             {
+                os << "|";
+
                 // Iterate through each column line of this row
                 for ( int k = 0; k < obj.cols; k++ )
                 {
@@ -248,67 +374,36 @@ public:
                     os << "|";
                 }
                 os << endl;
-                if ( j < obj.rowsHeight[ i ] - 1 ) os << "|";
             }
         }
 
         // Last divider
-        os << divider;
+        os << divider << endl;
 
         return os;
     }
 
+    void swap( CTable& first, CTable& second )
+    {
+        using std::swap;
+
+        swap( first.rows, second.rows );
+        swap( first.rowsHeight, second.rowsHeight );
+        swap( first.cols, second.cols );
+        swap( first.colsWidth, second.colsWidth );
+        swap( first.width, second.width );
+        swap( first.height, second.height );
+        swap( first.cells, second.cells );
+    }
+
 private:
     CCell **cells;
-    int *rowsHeight, *colsWidth;
+    unsigned int *rowsHeight, *colsWidth;
     int rows, cols, width, height;
 };
 
 int main ( void )
 {
-
-    CTable table( 5, 4 );
-
-    table.SetCell( 0, 0, CText( "Lorem" ) )
-            .SetCell( 0, 1, CEmpty() )
-            .SetCell( 0, 2, CText( "dolor sit" ) )
-            .SetCell( 0, 3, CText( "amet" ) )
-            .SetCell( 1, 0, CText( "Lorem\nipsum\ndolor\nsit" ) )
-            .SetCell( 1, 1, CText( "consectetur\nadipiscing" ) )
-            .SetCell( 1, 2, CText( "Lorem\nipsum", CText::ALIGN_RIGHT ) )
-            .SetCell( 1, 3, CText( "Blah", CText::ALIGN_RIGHT ) )
-            .SetCell( 2, 0, CText( "Lorem" ) )
-            .SetCell( 2, 1, CText( "Lorem\nipsum", CText::ALIGN_RIGHT ) )
-            .SetCell( 2, 2, CText( "Ipsum\nlorem" ) )
-            .SetCell( 2, 3, CText( "Ipsum", CText::ALIGN_RIGHT ) )
-            .SetCell( 3, 0, CText( "OOOOMMMMMGGGGGAAAA", CText::ALIGN_RIGHT ) )
-            .SetCell( 3, 1, CText( "AAAAAAAAAAAAAAAAAA", CText::ALIGN_RIGHT ) )
-            .SetCell( 3, 2, CText( "BBBBBBBBBBBBBBBBBB" ) )
-            .SetCell( 3, 3, CText( "EEEEEEEEEEEEEEEEEE", CText::ALIGN_RIGHT ) )
-            .SetCell (4, 1, CImage ()
-            . AddRow ( "###                   " )
-            . AddRow ( "#  #                  " )
-            . AddRow ( "#  # # ##   ###    ###" )
-            . AddRow ( "###  ##    #   #  #  #" )
-            . AddRow ( "#    #     #   #  #  #" )
-            . AddRow ( "#    #     #   #  #  #" )
-            . AddRow ( "#    #      ###    ###" )
-            . AddRow ( "                     #" )
-            . AddRow ( "                   ## " )
-            . AddRow ( "                      " )
-            . AddRow ( " #    ###   ###   #   " )
-            . AddRow ( "###  #   # #     ###  " )
-            . AddRow ( " #   #####  ###   #   " )
-            . AddRow ( " #   #         #  #   " )
-            . AddRow ( "  ##  ###   ###    ## " ) );
-
-    cout << table;
-
-
-    return 69;
-
-    // --------------------
-
     ostringstream oss;
     CTable t0 ( 3, 2 );
     t0 . SetCell ( 0, 0, CText ( "Hello,\n"
@@ -628,6 +723,8 @@ int main ( void )
                      "|                                              |*   *   *      *  *      *       *       *|\n"
                      "|                                              |*    *    *****   ****** ******* ******  *|\n"
                      "+----------------------------------------------+------------------------------------------+\n" );
+
+    t1.SetCell( 0, 0, t1.GetCell( 0, 0 ) );
 
     return 0;
 }
