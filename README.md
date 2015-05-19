@@ -3,7 +3,7 @@
 
 The work done on Progtest tasks for subject PA2 on FIT CTU
 
-Some of them are regurarly failed ( oopsie daisy :grin: ) or evaluated with less than maximum points ( yup, i'm not that good, sry ). Few of them are imo good, but mostly it's shame. Whatever. The tasks are (assignments were in czech):
+Some of them are regurarly failed ( oopsie daisy :grin: ) or evaluated with less than maximum points ( yup, i'm not that good, sry ). Few of them are imo kinda [good](task-4-cregister/main.cpp), but mostly it's shame. Whatever. The tasks are (assignments were in czech):
 
 *Homework 01*
 
