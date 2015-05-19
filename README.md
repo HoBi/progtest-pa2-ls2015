@@ -67,4 +67,4 @@ Some of them are regurarly failed ( oopsie daisy :grin: ) or evaluated with less
     Úloha je rozšířením základní verze tabulek. Doporučujeme nejprve realizovat jednodušší verzi a pak ji rozšířit. Rozšíření spočívá v možnosti, aby tabulky dokázaly do své buňky vložit jinou tabulku...
 
 
-I haven't put here full versions of assignments, because author of assignments doesn't really like when someone spreads these over internet, so... use fit-wiki :D
+I haven't put here full versions of assignments, because the author doesn't really like when someone spread these over internet, so... use fit-wiki :D
