@@ -1,0 +1,5 @@
+Car register is 4th assigned task in subject PA2 on FIT CTU, in 2nd semester of 2014-15.
+
+Project can be compiled by using CMake or just by compiling one file main.cpp. More information in file INSTALL.
+
+More information can be found in documentation, which can be generated with Doxygen from directory src/ using the Doxyfile file.

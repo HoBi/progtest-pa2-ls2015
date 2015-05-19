@@ -1,0 +1,352 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.9.1">
+  <compounddef id="class_c_car" kind="class" language="C++" prot="public">
+    <compoundname>CCar</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_c_car_1a3b82399ee318aa55c47970b9cfc4fea5" prot="public" static="no" mutable="no">
+        <type>const char *</type>
+        <definition>const char* CCar::rz</definition>
+        <argsstring></argsstring>
+        <name>rz</name>
+        <briefdescription>
+<para>Registration idenfiticator. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" line="894" column="1" bodyfile="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" bodystart="894" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_c_car_1a9bcaf1e3dd746ee95333c6c8fd06605d" prot="public" static="no" mutable="no">
+        <type><ref refid="class_shared_ptr" kindref="compound">COwnerSPtr</ref></type>
+        <definition>COwnerSPtr CCar::owner</definition>
+        <argsstring></argsstring>
+        <name>owner</name>
+        <briefdescription>
+<para>Car owner. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" line="897" column="1" bodyfile="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" bodystart="897" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_c_car_1ad9870c10738a06e9c639f90ba73a19bf" prot="public" static="no" mutable="no">
+        <type><ref refid="class_shared_ptr" kindref="compound">COwnerListSPtr</ref></type>
+        <definition>COwnerListSPtr CCar::ownerHistory</definition>
+        <argsstring></argsstring>
+        <name>ownerHistory</name>
+        <briefdescription>
+<para>History of car ownership. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" line="900" column="1" bodyfile="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" bodystart="900" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_c_car_1a6537ab93e8c82c8b5a7d84099b50f653" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>CCar::CCar</definition>
+        <argsstring>()</argsstring>
+        <name>CCar</name>
+        <briefdescription>
+<para>Implicit constructor. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" line="813" column="1" bodyfile="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" bodystart="813" bodyend="818"/>
+      </memberdef>
+      <memberdef kind="function" id="class_c_car_1ab3b8c5f6438105db5d73fca24896dc0b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>CCar::CCar</definition>
+        <argsstring>(const char *rz, COwnerSPtr owner)</argsstring>
+        <name>CCar</name>
+        <param>
+          <type>const char *</type>
+          <declname>rz</declname>
+        </param>
+        <param>
+          <type><ref refid="class_shared_ptr" kindref="compound">COwnerSPtr</ref></type>
+          <declname>owner</declname>
+        </param>
+        <briefdescription>
+<para>Creates new car with specified RZ and owner. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>rz</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>registration identification </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>owner</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>car&apos;s owner </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" line="825" column="1" bodyfile="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" bodystart="825" bodyend="831"/>
+      </memberdef>
+      <memberdef kind="function" id="class_c_car_1a988f420672602f580ddb605c30079084" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>CCar::CCar</definition>
+        <argsstring>(const char *rz)</argsstring>
+        <name>CCar</name>
+        <param>
+          <type>const char *</type>
+          <declname>rz</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>rz</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>registration idenfitication </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" line="836" column="1" bodyfile="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" bodystart="836" bodyend="839"/>
+      </memberdef>
+      <memberdef kind="function" id="class_c_car_1a28b03a54a1eaef2f238d018a7f074a1e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>CCar::CCar</definition>
+        <argsstring>(const CCar &amp;car)</argsstring>
+        <name>CCar</name>
+        <param>
+          <type>const <ref refid="class_c_car" kindref="compound">CCar</ref> &amp;</type>
+          <declname>car</declname>
+        </param>
+        <briefdescription>
+<para>Copy constructor. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" line="842" column="1" bodyfile="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" bodystart="842" bodyend="850"/>
+      </memberdef>
+      <memberdef kind="function" id="class_c_car_1a465813774945104394ce6910d1ea44d0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="class_c_car" kindref="compound">CCar</ref> &amp;</type>
+        <definition>CCar&amp; CCar::operator=</definition>
+        <argsstring>(const CCar &amp;car)</argsstring>
+        <name>operator=</name>
+        <param>
+          <type>const <ref refid="class_c_car" kindref="compound">CCar</ref> &amp;</type>
+          <declname>car</declname>
+        </param>
+        <briefdescription>
+<para>Assignment operator. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" line="853" column="1" bodyfile="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" bodystart="853" bodyend="865"/>
+      </memberdef>
+      <memberdef kind="function" id="class_c_car_1ad9adeb5109d14761b09e63b119f92f18" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void CCar::TransferTo</definition>
+        <argsstring>(COwnerSPtr newOwner)</argsstring>
+        <name>TransferTo</name>
+        <param>
+          <type><ref refid="class_shared_ptr" kindref="compound">COwnerSPtr</ref></type>
+          <declname>newOwner</declname>
+        </param>
+        <briefdescription>
+<para>Transfers the car to another owner. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>newOwner</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>new car owner </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" line="871" column="1" bodyfile="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" bodystart="871" bodyend="875"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="friend">
+      <memberdef kind="friend" id="class_c_car_1a0cafbd1df077226a882fc8bc82a8a2c9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>friend bool</type>
+        <definition>bool operator==</definition>
+        <argsstring>(const CCar &amp;lhs, const CCar &amp;rhs)</argsstring>
+        <name>operator==</name>
+        <param>
+          <type>const <ref refid="class_c_car" kindref="compound">CCar</ref> &amp;</type>
+          <declname>lhs</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_c_car" kindref="compound">CCar</ref> &amp;</type>
+          <declname>rhs</declname>
+        </param>
+        <briefdescription>
+<para>Equality operator. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" line="878" column="1" bodyfile="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" bodystart="878" bodyend="878"/>
+      </memberdef>
+      <memberdef kind="friend" id="class_c_car_1a1a9cabadca7aa43689a04d7c1c726be1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>friend bool</type>
+        <definition>bool operator!=</definition>
+        <argsstring>(const CCar &amp;lhs, const CCar &amp;rhs)</argsstring>
+        <name>operator!=</name>
+        <param>
+          <type>const <ref refid="class_c_car" kindref="compound">CCar</ref> &amp;</type>
+          <declname>lhs</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_c_car" kindref="compound">CCar</ref> &amp;</type>
+          <declname>rhs</declname>
+        </param>
+        <briefdescription>
+<para>Comparison operator. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" line="880" column="1" bodyfile="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" bodystart="880" bodyend="880"/>
+      </memberdef>
+      <memberdef kind="friend" id="class_c_car_1af41c4a9ab89b054faeda4ceabc035c82" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>friend bool</type>
+        <definition>bool operator&lt;</definition>
+        <argsstring>(const CCar &amp;lhs, const CCar &amp;rhs)</argsstring>
+        <name>operator&lt;</name>
+        <param>
+          <type>const <ref refid="class_c_car" kindref="compound">CCar</ref> &amp;</type>
+          <declname>lhs</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_c_car" kindref="compound">CCar</ref> &amp;</type>
+          <declname>rhs</declname>
+        </param>
+        <briefdescription>
+<para>Comparison operator. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" line="882" column="1" bodyfile="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" bodystart="882" bodyend="885"/>
+      </memberdef>
+      <memberdef kind="friend" id="class_c_car_1ad39cfc3230b8993267fb30be110c30eb" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>friend bool</type>
+        <definition>bool operator&gt;</definition>
+        <argsstring>(const CCar &amp;lhs, const CCar &amp;rhs)</argsstring>
+        <name>operator&gt;</name>
+        <param>
+          <type>const <ref refid="class_c_car" kindref="compound">CCar</ref> &amp;</type>
+          <declname>lhs</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_c_car" kindref="compound">CCar</ref> &amp;</type>
+          <declname>rhs</declname>
+        </param>
+        <briefdescription>
+<para>Comparison operator. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" line="887" column="1" bodyfile="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" bodystart="887" bodyend="887"/>
+      </memberdef>
+      <memberdef kind="friend" id="class_c_car_1a2899467c1e187a4ab016b69ee382116f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>friend bool</type>
+        <definition>bool operator&lt;=</definition>
+        <argsstring>(const CCar &amp;lhs, const CCar &amp;rhs)</argsstring>
+        <name>operator&lt;=</name>
+        <param>
+          <type>const <ref refid="class_c_car" kindref="compound">CCar</ref> &amp;</type>
+          <declname>lhs</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_c_car" kindref="compound">CCar</ref> &amp;</type>
+          <declname>rhs</declname>
+        </param>
+        <briefdescription>
+<para>Comparison operator. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" line="889" column="1" bodyfile="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" bodystart="889" bodyend="889"/>
+      </memberdef>
+      <memberdef kind="friend" id="class_c_car_1aa9bbefe5bc3f2b9a2b24f31dd8428136" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>friend bool</type>
+        <definition>bool operator&gt;=</definition>
+        <argsstring>(const CCar &amp;lhs, const CCar &amp;rhs)</argsstring>
+        <name>operator&gt;=</name>
+        <param>
+          <type>const <ref refid="class_c_car" kindref="compound">CCar</ref> &amp;</type>
+          <declname>lhs</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_c_car" kindref="compound">CCar</ref> &amp;</type>
+          <declname>rhs</declname>
+        </param>
+        <briefdescription>
+<para>Comparison operator. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" line="891" column="1" bodyfile="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" bodystart="891" bodyend="891"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Instance of car. </para>    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>CCar</label>
+        <link refid="class_c_car"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>ownerHistory</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>owner</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>SharedPtr&lt; COwner &gt;</label>
+        <link refid="class_shared_ptr"/>
+      </node>
+      <node id="2">
+        <label>SharedPtr&lt; COwnerList &gt;</label>
+        <link refid="class_shared_ptr"/>
+      </node>
+    </collaborationgraph>
+    <location file="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" line="810" column="1" bodyfile="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" bodystart="809" bodyend="901"/>
+    <listofallmembers>
+      <member refid="class_c_car_1a6537ab93e8c82c8b5a7d84099b50f653" prot="public" virt="non-virtual"><scope>CCar</scope><name>CCar</name></member>
+      <member refid="class_c_car_1ab3b8c5f6438105db5d73fca24896dc0b" prot="public" virt="non-virtual"><scope>CCar</scope><name>CCar</name></member>
+      <member refid="class_c_car_1a988f420672602f580ddb605c30079084" prot="public" virt="non-virtual"><scope>CCar</scope><name>CCar</name></member>
+      <member refid="class_c_car_1a28b03a54a1eaef2f238d018a7f074a1e" prot="public" virt="non-virtual"><scope>CCar</scope><name>CCar</name></member>
+      <member refid="class_c_car_1a1a9cabadca7aa43689a04d7c1c726be1" prot="public" virt="non-virtual"><scope>CCar</scope><name>operator!=</name></member>
+      <member refid="class_c_car_1af41c4a9ab89b054faeda4ceabc035c82" prot="public" virt="non-virtual"><scope>CCar</scope><name>operator&lt;</name></member>
+      <member refid="class_c_car_1a2899467c1e187a4ab016b69ee382116f" prot="public" virt="non-virtual"><scope>CCar</scope><name>operator&lt;=</name></member>
+      <member refid="class_c_car_1a465813774945104394ce6910d1ea44d0" prot="public" virt="non-virtual"><scope>CCar</scope><name>operator=</name></member>
+      <member refid="class_c_car_1a0cafbd1df077226a882fc8bc82a8a2c9" prot="public" virt="non-virtual"><scope>CCar</scope><name>operator==</name></member>
+      <member refid="class_c_car_1ad39cfc3230b8993267fb30be110c30eb" prot="public" virt="non-virtual"><scope>CCar</scope><name>operator&gt;</name></member>
+      <member refid="class_c_car_1aa9bbefe5bc3f2b9a2b24f31dd8428136" prot="public" virt="non-virtual"><scope>CCar</scope><name>operator&gt;=</name></member>
+      <member refid="class_c_car_1a9bcaf1e3dd746ee95333c6c8fd06605d" prot="public" virt="non-virtual"><scope>CCar</scope><name>owner</name></member>
+      <member refid="class_c_car_1ad9870c10738a06e9c639f90ba73a19bf" prot="public" virt="non-virtual"><scope>CCar</scope><name>ownerHistory</name></member>
+      <member refid="class_c_car_1a3b82399ee318aa55c47970b9cfc4fea5" prot="public" virt="non-virtual"><scope>CCar</scope><name>rz</name></member>
+      <member refid="class_c_car_1ad9adeb5109d14761b09e63b119f92f18" prot="public" virt="non-virtual"><scope>CCar</scope><name>TransferTo</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

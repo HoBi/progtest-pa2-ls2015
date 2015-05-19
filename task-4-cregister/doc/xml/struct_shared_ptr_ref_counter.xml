@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.9.1">
+  <compounddef id="struct_shared_ptr_ref_counter" kind="struct" language="C++" prot="public">
+    <compoundname>SharedPtrRefCounter</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_shared_ptr_ref_counter_1a2c6b4dd51ac4d88ca8a8520f6cfa40bd" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int SharedPtrRefCounter::references</definition>
+        <argsstring></argsstring>
+        <name>references</name>
+        <briefdescription>
+<para>No. </para>        </briefdescription>
+        <detaileddescription>
+<para>of references </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" line="34" column="1" bodyfile="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="struct_shared_ptr_ref_counter_1ac8e0b4aab067d7a9394223e4f51d8e6b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>SharedPtrRefCounter::SharedPtrRefCounter</definition>
+        <argsstring>()</argsstring>
+        <name>SharedPtrRefCounter</name>
+        <briefdescription>
+<para>Constructor, will initiate with ref count 1. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" line="39" column="1" bodyfile="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" bodystart="39" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_shared_ptr_ref_counter_1ae742cdb0748407e7f8c1b8ce9193f3e0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>SharedPtrRefCounter::SharedPtrRefCounter</definition>
+        <argsstring>(int start)</argsstring>
+        <name>SharedPtrRefCounter</name>
+        <param>
+          <type>int</type>
+          <declname>start</declname>
+        </param>
+        <briefdescription>
+<para>Constructor which can be used to start from other point than 1. </para>        </briefdescription>
+        <detaileddescription>
+<para>Specified as parameter. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>start</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>ref count starting point </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" line="45" column="1" bodyfile="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" bodystart="45" bodyend="45"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Shared pointer references counter. </para>    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" line="31" column="1" bodyfile="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" bodystart="30" bodyend="46"/>
+    <listofallmembers>
+      <member refid="struct_shared_ptr_ref_counter_1a2c6b4dd51ac4d88ca8a8520f6cfa40bd" prot="public" virt="non-virtual"><scope>SharedPtrRefCounter</scope><name>references</name></member>
+      <member refid="struct_shared_ptr_ref_counter_1ac8e0b4aab067d7a9394223e4f51d8e6b" prot="public" virt="non-virtual"><scope>SharedPtrRefCounter</scope><name>SharedPtrRefCounter</name></member>
+      <member refid="struct_shared_ptr_ref_counter_1ae742cdb0748407e7f8c1b8ce9193f3e0" prot="public" virt="non-virtual"><scope>SharedPtrRefCounter</scope><name>SharedPtrRefCounter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

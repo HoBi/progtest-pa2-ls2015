@@ -8,36 +8,69 @@
 using namespace std;
 #endif /* __PROGTEST__ */
 
+
+/**
+ * Exception: Index is out of boundary
+ */
 class IndexOutOfBoundaryException {};
+
+/**
+ * Exception: Item has not been found
+ */
 class ItemNotFoundException {};
+
+/**
+ * Exception: Owner hasn't been correctly copied
+ */
 class OwnerNotCopiedException {};
 
+/**
+ * Shared pointer references counter
+ */
 struct SharedPtrRefCounter
 {
 public:
+    /** No. of references */
     int references;
+
+    /**
+     * Constructor, will initiate with ref count 1.
+     */
     SharedPtrRefCounter() { references = 1; }
+
+    /**
+     * Constructor which can be used to start from other point than 1. Specified as parameter.
+     * @param start ref count starting point
+     */
     SharedPtrRefCounter( int start ) { references = start; }
 };
 
 /**
- * @class SharedPtr
+ * Custom class for shared pointer
  */
 template <typename T> class SharedPtr
 {
 public:
+    /**
+     * Implicit constructor
+     * */
     SharedPtr() : ptr( 0 ), refCounter( 0 )
     {
         refCounter = new SharedPtrRefCounter();
         isZero = true;
     }
 
+    /**
+     * Constructs shared pointer from regular pointer
+     * @param ptr source pointer
+     */
     SharedPtr( T * ptr ) : ptr( ptr ), refCounter( 0 )
     {
         refCounter = new SharedPtrRefCounter();
         isZero = false;
     }
 
+    /** Destructor */
     virtual ~SharedPtr()
     {
         if ( (--refCounter->references) == 0 )
@@ -47,11 +80,13 @@ public:
         }
     }
 
+    /** Copy constructor */
     SharedPtr( const SharedPtr<T> & sptr ) : ptr( sptr.ptr ), refCounter( sptr.refCounter )
     {
         refCounter->references++;
     }
 
+    /** Assigment operator */
     SharedPtr & operator=( const SharedPtr & ptr )
     {
         if ( this != &ptr )
@@ -69,6 +104,7 @@ public:
         return *this;
     }
 
+    /** Equality operator */
     const SharedPtr & operator=( const SharedPtr & ptr ) const
     {
         if ( this != &ptr )
@@ -82,21 +118,28 @@ public:
         return *this;
     }
 
+    /** Dereferencing -> operator */
     T* operator->()
     {
         return ptr;
     }
 
+    /** Constant dereferencing operator */
     const T* operator->() const
     {
         return ptr;
     }
 
+    /** Dereferencing * operator */
     T& operator*()
     {
         return *ptr;
     }
 
+    /**
+     * Make detached copy of content
+     * @return new shared pointer
+     */
     SharedPtr & Detach()
     {
         T * nPtr = new T( *ptr );
@@ -107,6 +150,10 @@ public:
         return *this;
     }
 
+    /**
+     * Make detached copy of content only if this pointer is shared
+     * @return new or old shared pointer
+     */
     SharedPtr & DetachIfShared()
     {
         if ( refCounter->references > 1 )
@@ -119,12 +166,15 @@ public:
         return *this;
     }
 
+    /** Comparison operator */
     bool operator==( const SharedPtr & rhs ) const
     {
         return ( isZero == rhs.isZero || ptr == rhs.ptr );
     }
 
+    /** Comparison operator */
     bool operator<( const SharedPtr & rhs ) const { return ptr < rhs.ptr; }
+    /** Comparison operator */
     bool operator>( const SharedPtr & rhs ) const { return ptr > rhs.ptr; }
 
 private:
@@ -133,9 +183,16 @@ private:
     bool isZero;
 };
 
+/**
+ * Shared pointer factory
+ */
 class SharedPtrFactory
 {
 public:
+    /**
+     * Create new shared pointer
+     * @param object object as content
+     */
     template <class T> static SharedPtr<T> create( T* object )
     {
         return SharedPtr<T>( object );
@@ -143,23 +200,37 @@ public:
 };
 
 /**
- * @class CStringFuncs
+ * Utilities for string manipulation
  */
 class CStringFuncs
 {
 public:
+    /**
+     * Checks if lhs is smaller than rhs
+     * @param lhs left side
+     * @param rhs right side
+     */
     static bool smallerThan( const char * lhs, const char * rhs )
     {
         // todo: může to bejt na progtestu zakázaný
         return strcmp( lhs, rhs ) < 0;
     }
 
+    /**
+     * Checks if the specified strings are equal
+     * @param lhs left side
+     * @param rhs right side
+     */
     static bool areEqual( const char * lhs, const char * rhs )
     {
         // todo: může to bejt na progtestu zakázaný
         return strcmp( lhs, rhs ) == 0;
     }
 
+    /**
+     * Make deep copy of string
+     * @param from source
+     */
     static char * makeCopy( const char * from )
     {
         int length = strlen( from ) + 1;
@@ -170,15 +241,17 @@ public:
 };
 
 /**
- * @class CList
- * @brief Simple list
+ * Simple list
  */
 template <class T> class CList
 {
 public:
+    /** Item not found constant */
     static const int ITEM_NOT_FOUND = -1;
+    /** List length */
     int length;
 
+    /** Implicit constructor */
     CList()
     {
         length = 0;
@@ -187,6 +260,10 @@ public:
         position = 0;
     }
 
+    /**
+     * Constructor
+     * @param size list size
+     */
     CList( int size )
     {
         length = size;
@@ -195,6 +272,7 @@ public:
         position = 0;
     }
 
+    /** Copy constructor */
     CList( const CList & list )
     {
         this->length = list.length;
@@ -203,11 +281,13 @@ public:
         this->position = 0;
     }
 
+    /** Destructor */
     virtual ~CList()
     {
         delete[] list;
     }
 
+    /** Assignment operator */
     virtual CList & operator=( const CList & list )
     {
         return *this;
@@ -225,6 +305,11 @@ public:
         return list[ index ];
     }
 
+    /**
+     * Set value of list item on specified index
+     * @param index index
+     * @param item new value
+     */
     void Set( int index, T item )
     {
         if ( index < 0 || index >= length )
@@ -285,15 +370,23 @@ public:
         position++;
     }
 
+    /**
+     * Reset iterator to starting position
+     */
     void Reset( void )
     {
         position = 0;
     }
 
 protected:
+    /** List of items */
     T* list;
+    /** Unique flag */
     bool isUnique;
-    int max, position;
+    /** Actual list maximum size (dynamic) */
+    int max;
+    /** Iterator actual position */
+    int position;
 
     /**
      * Checks if there is still enough room for storing more items in list
@@ -346,7 +439,6 @@ protected:
 
     /**
      * Returns last occurrence of duplicate items
-     * todo: not sure, if even usable
      * @param indexFrom Starting index for searching the last occurence
      */
     int LastOccurrenceIdx( int indexFrom ) const
@@ -363,6 +455,7 @@ protected:
 
     /**
      * Returns midpoint, used for binary search
+     * @return midpoint
      */
     int getmidpoint( int from, int to ) const
     {
@@ -371,15 +464,16 @@ protected:
 };
 
 /**
- * @class CSortedList
- * @brief Sorted list
+ * Sorted list
  */
 template <class T> class CSortedList : public CList<T>
 {
 public:
 
     /**
+     * Constructor
      * @param unique Flag to forcing all items to be unique in the list
+     * @param pointers Are values in list pointers?
      */
     CSortedList( bool unique = true, bool pointers = false )
     {
@@ -389,6 +483,7 @@ public:
         this->pointers = pointers;
     }
 
+    /** Copy constructor */
     CSortedList( const CSortedList & list )
     {
         this->list = new T[ list.max ];
@@ -400,6 +495,7 @@ public:
             this->list[ i ] = list.At( i );
     }
 
+    /** Assigment operator */
     virtual CSortedList & operator=( const CSortedList & cslist )
     {
         if ( &cslist != this )
@@ -483,7 +579,11 @@ public:
     }
 
 protected:
-    bool isUnique, pointers;
+    /** Unique flag */
+    bool isUnique;
+
+    /** Pointers flag */
+    bool pointers;
 
 };
 
@@ -491,13 +591,13 @@ class CCar;
 typedef SharedPtr<CCar> CCarSPtr;
 
 /**
- * @class CCarList
- * @brief List of cars with iterator
+ * List of cars with iterator
  */
 class CCarList : public CSortedList<CCarSPtr>
 {
 public:
 
+    /** Implicit constructor */
     CCarList() : CSortedList<CCarSPtr>( true, true )
     {
 
@@ -519,6 +619,7 @@ typedef SharedPtr<CCarList> CCarListSPtr;
 class COwner
 {
 public:
+    /** Implicit constructor */
     COwner()
     {
         this->name = "";
@@ -526,6 +627,11 @@ public:
         this->cars = CCarListSPtr( new CCarList() );
     }
 
+    /**
+     * Constructor
+     * @param name owner name
+     * @param surname owner surname
+     */
     COwner( const char * name, const char * surname )
     {
         this->name = name;
@@ -533,6 +639,7 @@ public:
         this->cars = CCarListSPtr( new CCarList() );
     }
 
+    /** Copy constructor */
     COwner( const COwner & own )
     {
         this->name = CStringFuncs::makeCopy( own.name );
@@ -543,12 +650,14 @@ public:
             this->cars->Insert( own.cars->At( i ) );
     }
 
+    /** Destructor */
     ~COwner()
     {
         delete[] name;
         delete[] surname;
     }
 
+    /** Assignment operator */
     COwner & operator=( const COwner & own )
     {
         if ( &own != this )
@@ -563,40 +672,51 @@ public:
             return *this;
     }
 
+    /** Equality operator */
     friend bool operator==( const COwner & lhs, const COwner & rhs) { return CStringFuncs::areEqual( lhs.name, rhs.name ) && CStringFuncs::areEqual( lhs.surname, rhs.surname); }
+    /** Comparison operator */
     friend bool operator!=( const COwner & lhs, const COwner & rhs) { return !operator==( lhs, rhs ); }
+    /** Comparison operator */
     friend bool operator<( const COwner & lhs, const COwner & rhs)
     {
         return CStringFuncs::areEqual( lhs.name, rhs.name ) ? CStringFuncs::smallerThan( lhs.surname, rhs.surname ) : CStringFuncs::smallerThan( lhs.name, rhs.name );
     }
+    /** Comparison operator */
     friend bool operator>( const COwner & lhs, const COwner & rhs ) { return operator<( rhs, lhs ); }
+    /** Comparison operator */
     friend bool operator<=( const COwner & lhs, const COwner & rhs ) { return !operator>( lhs, rhs ); }
+    /** Comparison operator */
     friend bool operator>=( const COwner & lhs, const COwner & rhs ) { return !operator<( lhs, rhs ); }
 
+    /** Output operator */
     friend ostream & operator<<( ostream & os, const COwner & obj )
     {
         os << "COwner " << &obj << ": ( " << obj.name << ", " << obj.surname << " ) )";
         return os;
     }
 
-    const char * name, * surname;
+    /** Owner's name */
+    const char * name;
+    /** Owner's surname */
+    const char * surname;
+    /** List of owner's cars */
     CCarListSPtr cars;
 };
 typedef SharedPtr<COwner> COwnerSPtr;
 
 /**
-* @class COwnerList
-* @brief List of car owners (in correct historical sorting)
+* List of car owners (in correct historical sorting)
 */
 class COwnerList : public CList<COwnerSPtr>
 {
 public:
-
+    /** Implicit constructor */
     COwnerList() : CList<COwnerSPtr>()
     {
         this->list = new COwnerSPtr[ this->max ];
     }
 
+    /** Copy constructor */
     COwnerList( const COwnerList & clist ) : CList<COwnerSPtr>( clist )
     {
         this->list = new COwnerSPtr[ this->length ];
@@ -605,6 +725,10 @@ public:
             this->list[ i ] = clist.At( i );
     }
 
+    /**
+     * Constructor with specified list size
+     * @param size list size
+     */
     COwnerList( int size ) : CList<COwnerSPtr>( size )
     {
         this->list = new COwnerSPtr[ size + 8 ];
@@ -628,17 +752,18 @@ public:
 typedef SharedPtr<COwnerList> COwnerListSPtr;
 
 /**
-* @class COwnerList
-* @brief List of car owners (in correct historical sorting)
+* List of car owners (in correct historical sorting)
 */
 class CSortedOwnerList : public CSortedList<COwnerSPtr>
 {
 public:
+    /** Implicit constructor */
     CSortedOwnerList() : CSortedList<COwnerSPtr>( true, true )
     {
         // empty corr
     }
 
+    /** Copy constructor */
     CSortedOwnerList( const CSortedOwnerList & cslist) : CSortedList<COwnerSPtr>( cslist )
     {
         // empty corr
@@ -659,6 +784,7 @@ public:
         return list[ position ]->surname;
     }
 
+    /** Assignment operator */
     CSortedOwnerList & operator=( const CSortedOwnerList & cslist )
     {
         if ( &cslist != this )
@@ -678,12 +804,12 @@ public:
 typedef SharedPtr<CSortedOwnerList> CSortedOwnerListSPtr;
 
 /**
- * @class CCar
- * @brief Instance of car
+ * Instance of car
  */
 class CCar
 {
     public:
+        /** Implicit constructor */
         CCar()
         {
             this->rz = "";
@@ -691,6 +817,11 @@ class CCar
             this->ownerHistory = COwnerListSPtr( new COwnerList() );
         }
 
+        /**
+         * Creates new car with specified RZ and owner
+         * @param rz registration identification
+         * @param owner car's owner
+         */
         CCar( const char * rz, COwnerSPtr owner )
         {
             this->rz = rz;
@@ -699,11 +830,15 @@ class CCar
             ownerHistory->Insert( owner, 0 );
         }
 
+        /**
+         * @param rz registration idenfitication
+         */
         CCar( const char * rz )
         {
             this->rz = rz;
         }
 
+        /** Copy constructor */
         CCar( const CCar & car )
         {
             this->rz = CStringFuncs::makeCopy( car.rz );
@@ -714,6 +849,7 @@ class CCar
                 this->ownerHistory->Set( i, car.ownerHistory->At( i ) );
         }
 
+        /** Assignment operator */
         CCar & operator=( const CCar & car )
         {
             if ( &car != this )
@@ -728,32 +864,51 @@ class CCar
             return *this;
         }
 
+        /**
+         * Transfers the car to another owner
+         * @param newOwner new car owner
+         */
         void TransferTo( COwnerSPtr newOwner )
         {
             ownerHistory->Insert( newOwner, 0 );
             owner = newOwner;
         }
 
+        /** Equality operator */
         friend bool operator==( const CCar & lhs, const CCar & rhs) { return CStringFuncs::areEqual(lhs.rz, rhs.rz); }
+        /** Comparison operator */
         friend bool operator!=( const CCar & lhs, const CCar & rhs) { return !operator==( lhs, rhs ); }
+        /** Comparison operator */
         friend bool operator<( const CCar & lhs, const CCar & rhs)
         {
             return CStringFuncs::smallerThan( lhs.rz, rhs.rz );
         }
+        /** Comparison operator */
         friend bool operator>( const CCar & lhs, const CCar & rhs ) { return operator<( rhs, lhs ); }
+        /** Comparison operator */
         friend bool operator<=( const CCar & lhs, const CCar & rhs ) { return !operator>( lhs, rhs ); }
+        /** Comparison operator */
         friend bool operator>=( const CCar & lhs, const CCar & rhs ) { return !operator<( lhs, rhs ); }
 
+        /** Registration idenfiticator */
         const char * rz;
+
+        /** Car owner */
         COwnerSPtr owner;
+
+        /** History of car ownership */
         COwnerListSPtr ownerHistory;
 };
 
+/**
+ * Prints car's RZ
+ */
 const char * CCarList::RZ( void )
 {
     return list[ position ]->rz;
 }
 
+/** Assignment operator */
 CCarList & CCarList::operator=( const CCarList & cslist )
 {
     if ( &cslist != this )
@@ -770,18 +925,13 @@ CCarList & CCarList::operator=( const CCarList & cslist )
     return *this;
 }
 
-
-
-
-
-
 /**
-* @class CRegister
-* @brief Main class of the car register
+* Main class of the car register
 */
 class CRegister
 {
     public:
+        /** Implicit constructor */
         CRegister()
         {
             this->cars = CCarListSPtr( new CCarList() );
@@ -789,6 +939,7 @@ class CRegister
             sharedCarList = sharedOwnerList = false;
         }
 
+        /** Copy constructor */
         CRegister( CRegister & reg )
         {
             this->owners = reg.owners;
@@ -798,6 +949,7 @@ class CRegister
             reg.sharedCarList = reg.sharedOwnerList = true;
         }
 
+        /** Assignment operator */
         CRegister & operator=( CRegister & rhs )
         {
             if ( &rhs != this )
@@ -811,6 +963,11 @@ class CRegister
             return *this;
         }
 
+        /**
+         * Search for owner in database. If found - returns pointer to it's instance.
+         * Otherwise it will create a new owner, put it into database and return appropiate pointer to instance
+         * @return pointer to owner
+         */
         COwnerSPtr GetOrCreateOwner( COwnerSPtr owner ) {
             // Search owner
             int search = owners->Find( owner );
@@ -916,6 +1073,7 @@ class CRegister
         * @param rz registration identification of the car to transfer
         * @param nName name of the new owner
         * @param nSurname surname of the new owner
+        * @return success
         */
         bool Transfer( const char * rz, const char * nName, const char * nSurname )
         {
@@ -1026,25 +1184,6 @@ class CRegister
                 return found->ownerHistory->length;
             } else return 0;
         }
-
-        void PrintAllCars()
-        {
-            cout << endl << " ------------------ " << endl;
-            for ( int i = 0; i < cars->length; i++ )
-                {
-                cout << i << ": " << cars->At( i )->rz << " :: " << &(*(cars->At( i ))) <<
-                        ", owner: " << &(*(cars->At( i )->owner)) << endl;
-                }
-        }
-
-    void PrintAllOwners()
-    {
-        cout << endl << " ------------------ " << endl;
-        for ( int i = 0; i < owners->length; i++)
-        {
-            cout << i << ": " << owners->At( i )->name << " " << owners->At( i )->surname << " :: " << &(*(owners->At(i))) << ", " << owners->At( i )->cars->length << "cars" << endl;
-        }
-    }
 
     private:
         CCarListSPtr cars;

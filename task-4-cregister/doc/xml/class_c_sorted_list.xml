@@ -1,0 +1,245 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.9.1">
+  <compounddef id="class_c_sorted_list" kind="class" language="C++" prot="public">
+    <compoundname>CSortedList</compoundname>
+    <basecompoundref refid="class_c_list" prot="public" virt="non-virtual">CList&lt; T &gt;</basecompoundref>
+    <templateparamlist>
+      <param>
+        <type>class</type>
+        <declname>T</declname>
+        <defname>T</defname>
+      </param>
+    </templateparamlist>
+      <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_c_sorted_list_1a9ad3e368b02b418f5319833a6b6b3905" prot="protected" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool CSortedList&lt; T &gt;::isUnique</definition>
+        <argsstring></argsstring>
+        <name>isUnique</name>
+        <briefdescription>
+<para>Unique flag. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" line="583" column="1" bodyfile="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" bodystart="583" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_c_sorted_list_1aa4be5a63e10b5958dc292ac2c8bbb0da" prot="protected" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool CSortedList&lt; T &gt;::pointers</definition>
+        <argsstring></argsstring>
+        <name>pointers</name>
+        <briefdescription>
+<para>Pointers flag. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" line="586" column="1" bodyfile="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" bodystart="586" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_c_sorted_list_1a4388cce4091df2ac2f4e5fa6f4554433" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>CSortedList&lt; T &gt;::CSortedList</definition>
+        <argsstring>(bool unique=true, bool pointers=false)</argsstring>
+        <name>CSortedList</name>
+        <param>
+          <type>bool</type>
+          <declname>unique</declname>
+          <defval>true</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>pointers</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>Constructor. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>unique</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Flag to forcing all items to be unique in the list </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>pointers</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Are values in list pointers? </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" line="478" column="1" bodyfile="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" bodystart="478" bodyend="484"/>
+      </memberdef>
+      <memberdef kind="function" id="class_c_sorted_list_1a103c96de8a909bea392ef1c0083c4f7a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>CSortedList&lt; T &gt;::CSortedList</definition>
+        <argsstring>(const CSortedList &amp;list)</argsstring>
+        <name>CSortedList</name>
+        <param>
+          <type>const <ref refid="class_c_sorted_list" kindref="compound">CSortedList</ref> &amp;</type>
+          <declname>list</declname>
+        </param>
+        <briefdescription>
+<para>Copy constructor. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" line="487" column="1" bodyfile="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" bodystart="487" bodyend="496"/>
+      </memberdef>
+      <memberdef kind="function" id="class_c_sorted_list_1a85a59eee784adc38e563a35cf57aa3e7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="class_c_sorted_list" kindref="compound">CSortedList</ref> &amp;</type>
+        <definition>virtual CSortedList&amp; CSortedList&lt; T &gt;::operator=</definition>
+        <argsstring>(const CSortedList &amp;cslist)</argsstring>
+        <name>operator=</name>
+        <param>
+          <type>const <ref refid="class_c_sorted_list" kindref="compound">CSortedList</ref> &amp;</type>
+          <declname>cslist</declname>
+        </param>
+        <briefdescription>
+<para>Assigment operator. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" line="499" column="1" bodyfile="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" bodystart="499" bodyend="520"/>
+      </memberdef>
+      <memberdef kind="function" id="class_c_sorted_list_1a75ffec94c7ffdbfd3cde3566c5130f34" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int CSortedList&lt; T &gt;::Find</definition>
+        <argsstring>(T needle, bool searchForInsertionPos=false) const </argsstring>
+        <name>Find</name>
+        <param>
+          <type>T</type>
+          <declname>needle</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>searchForInsertionPos</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>Finds specified element with binary search. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>needle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Item to be searched for </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>searchForInsertionPos</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>instead of searching real position, we search insertion point </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" line="527" column="1" bodyfile="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" bodystart="527" bodyend="556"/>
+      </memberdef>
+      <memberdef kind="function" id="class_c_sorted_list_1a0b81904275581eee3fa6e1b93f1b5ade" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool CSortedList&lt; T &gt;::Insert</definition>
+        <argsstring>(T item)</argsstring>
+        <name>Insert</name>
+        <param>
+          <type>T</type>
+          <declname>item</declname>
+        </param>
+        <briefdescription>
+<para>Insert new item into sorted list. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>item</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" line="562" column="1" bodyfile="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" bodystart="562" bodyend="579"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Sorted list. </para>    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="25">
+        <label>CSortedList&lt; T &gt;</label>
+        <link refid="class_c_sorted_list"/>
+        <childnode refid="26" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="26">
+        <label>CList&lt; T &gt;</label>
+        <link refid="class_c_list"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="29">
+        <label>T</label>
+      </node>
+      <node id="27">
+        <label>CSortedList&lt; T &gt;</label>
+        <link refid="class_c_sorted_list"/>
+        <childnode refid="28" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="28">
+        <label>CList&lt; T &gt;</label>
+        <link refid="class_c_list"/>
+        <childnode refid="29" relation="usage">
+          <edgelabel>list</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" line="470" column="1" bodyfile="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" bodystart="469" bodyend="588"/>
+    <listofallmembers>
+      <member refid="class_c_list_1abf0db531beaef38a54a0530938763227" prot="public" virt="non-virtual"><scope>CSortedList</scope><name>At</name></member>
+      <member refid="class_c_list_1ab2df943c3d7a3f9046d02c5e22e0037c" prot="public" virt="non-virtual"><scope>CSortedList</scope><name>AtEnd</name></member>
+      <member refid="class_c_list_1a43c21dce8c5cdb4ef835b1d7053dd46f" prot="protected" virt="non-virtual"><scope>CSortedList</scope><name>CheckArrayBoundaries</name></member>
+      <member refid="class_c_list_1a0073f9fc19dc63c0d2c955fad7f4ff40" prot="public" virt="non-virtual"><scope>CSortedList</scope><name>CList</name></member>
+      <member refid="class_c_list_1af685eaa041d4e23c082a3d50e90bc467" prot="public" virt="non-virtual"><scope>CSortedList</scope><name>CList</name></member>
+      <member refid="class_c_list_1accc41151d3527359be101d6485656edd" prot="public" virt="non-virtual"><scope>CSortedList</scope><name>CList</name></member>
+      <member refid="class_c_sorted_list_1a4388cce4091df2ac2f4e5fa6f4554433" prot="public" virt="non-virtual"><scope>CSortedList</scope><name>CSortedList</name></member>
+      <member refid="class_c_sorted_list_1a103c96de8a909bea392ef1c0083c4f7a" prot="public" virt="non-virtual"><scope>CSortedList</scope><name>CSortedList</name></member>
+      <member refid="class_c_sorted_list_1a75ffec94c7ffdbfd3cde3566c5130f34" prot="public" virt="non-virtual"><scope>CSortedList</scope><name>Find</name></member>
+      <member refid="class_c_list_1aa6c96850f10b5fc32dc990954b0bba87" prot="public" virt="non-virtual"><scope>CSortedList</scope><name>Get</name></member>
+      <member refid="class_c_list_1a608de7ef2a91d141b18b7d8c0dca0588" prot="protected" virt="non-virtual"><scope>CSortedList</scope><name>getmidpoint</name></member>
+      <member refid="class_c_sorted_list_1a0b81904275581eee3fa6e1b93f1b5ade" prot="public" virt="non-virtual"><scope>CSortedList</scope><name>Insert</name></member>
+      <member refid="class_c_list_1a15df378f360c1051ad6db3b347981f8a" prot="public" virt="virtual" ambiguityscope="CList::"><scope>CSortedList</scope><name>Insert</name></member>
+      <member refid="class_c_sorted_list_1a9ad3e368b02b418f5319833a6b6b3905" prot="protected" virt="non-virtual"><scope>CSortedList</scope><name>isUnique</name></member>
+      <member refid="class_c_list_1ae9cf98ee15185ec9bd6b90406ed5d462" prot="public" virt="non-virtual"><scope>CSortedList</scope><name>ITEM_NOT_FOUND</name></member>
+      <member refid="class_c_list_1a4f5134e209d688006071261f99974293" prot="protected" virt="non-virtual"><scope>CSortedList</scope><name>LastOccurrenceIdx</name></member>
+      <member refid="class_c_list_1acf80281f61954a16e9db5c40a6bcf219" prot="public" virt="non-virtual"><scope>CSortedList</scope><name>length</name></member>
+      <member refid="class_c_list_1acf38ce92d4c9f0f6d361f44e2c2320d9" prot="protected" virt="non-virtual"><scope>CSortedList</scope><name>list</name></member>
+      <member refid="class_c_list_1a2f1e788293ba01eab7bc3a4ae41f4a22" prot="protected" virt="non-virtual"><scope>CSortedList</scope><name>max</name></member>
+      <member refid="class_c_list_1a8194fce5856cd00adc5bef2dbddad553" prot="public" virt="non-virtual"><scope>CSortedList</scope><name>Next</name></member>
+      <member refid="class_c_sorted_list_1a85a59eee784adc38e563a35cf57aa3e7" prot="public" virt="virtual"><scope>CSortedList</scope><name>operator=</name></member>
+      <member refid="class_c_list_1a712209ac3e01f4cfff25e06118ce5da3" prot="public" virt="virtual" ambiguityscope="CList::"><scope>CSortedList</scope><name>operator=</name></member>
+      <member refid="class_c_sorted_list_1aa4be5a63e10b5958dc292ac2c8bbb0da" prot="protected" virt="non-virtual"><scope>CSortedList</scope><name>pointers</name></member>
+      <member refid="class_c_list_1ab1c6c4d9f7b899ea9f242536b508e7bd" prot="protected" virt="non-virtual"><scope>CSortedList</scope><name>position</name></member>
+      <member refid="class_c_list_1a7562b261be933bc7c654371a7a9685a3" prot="public" virt="non-virtual"><scope>CSortedList</scope><name>Remove</name></member>
+      <member refid="class_c_list_1a454b57ead8f3447c2f85b79b0b9e4158" prot="public" virt="non-virtual"><scope>CSortedList</scope><name>Reset</name></member>
+      <member refid="class_c_list_1af0be5e3998954b24cb3f0a4abdef8d7f" prot="public" virt="non-virtual"><scope>CSortedList</scope><name>Set</name></member>
+      <member refid="class_c_list_1adc0a468428be0db41161fc8183426318" prot="protected" virt="non-virtual"><scope>CSortedList</scope><name>ShiftArrayLeft</name></member>
+      <member refid="class_c_list_1a130acd7b4afdc42b354483ccb9472024" prot="protected" virt="non-virtual"><scope>CSortedList</scope><name>ShiftArrayRight</name></member>
+      <member refid="class_c_list_1ad65714bc3fbb6377abbd72f164dcf1ea" prot="public" virt="virtual"><scope>CSortedList</scope><name>~CList</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

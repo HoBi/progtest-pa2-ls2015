@@ -1,0 +1,167 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygenindex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="index.xsd" version="1.8.9.1">
+  <compound refid="class_c_car" kind="class"><name>CCar</name>
+    <member refid="class_c_car_1a3b82399ee318aa55c47970b9cfc4fea5" kind="variable"><name>rz</name></member>
+    <member refid="class_c_car_1a9bcaf1e3dd746ee95333c6c8fd06605d" kind="variable"><name>owner</name></member>
+    <member refid="class_c_car_1ad9870c10738a06e9c639f90ba73a19bf" kind="variable"><name>ownerHistory</name></member>
+    <member refid="class_c_car_1a6537ab93e8c82c8b5a7d84099b50f653" kind="function"><name>CCar</name></member>
+    <member refid="class_c_car_1ab3b8c5f6438105db5d73fca24896dc0b" kind="function"><name>CCar</name></member>
+    <member refid="class_c_car_1a988f420672602f580ddb605c30079084" kind="function"><name>CCar</name></member>
+    <member refid="class_c_car_1a28b03a54a1eaef2f238d018a7f074a1e" kind="function"><name>CCar</name></member>
+    <member refid="class_c_car_1a465813774945104394ce6910d1ea44d0" kind="function"><name>operator=</name></member>
+    <member refid="class_c_car_1ad9adeb5109d14761b09e63b119f92f18" kind="function"><name>TransferTo</name></member>
+    <member refid="class_c_car_1a0cafbd1df077226a882fc8bc82a8a2c9" kind="friend"><name>operator==</name></member>
+    <member refid="class_c_car_1a1a9cabadca7aa43689a04d7c1c726be1" kind="friend"><name>operator!=</name></member>
+    <member refid="class_c_car_1af41c4a9ab89b054faeda4ceabc035c82" kind="friend"><name>operator&lt;</name></member>
+    <member refid="class_c_car_1ad39cfc3230b8993267fb30be110c30eb" kind="friend"><name>operator&gt;</name></member>
+    <member refid="class_c_car_1a2899467c1e187a4ab016b69ee382116f" kind="friend"><name>operator&lt;=</name></member>
+    <member refid="class_c_car_1aa9bbefe5bc3f2b9a2b24f31dd8428136" kind="friend"><name>operator&gt;=</name></member>
+  </compound>
+  <compound refid="class_c_car_list" kind="class"><name>CCarList</name>
+    <member refid="class_c_car_list_1ada7d00708fa71e931975b85ef0476b51" kind="function"><name>CCarList</name></member>
+    <member refid="class_c_car_list_1ab23ffd9d05c46575f21c3524b799cfee" kind="function"><name>operator=</name></member>
+    <member refid="class_c_car_list_1ad73f1eb43ae3cad4e557348d61de2eff" kind="function"><name>RZ</name></member>
+  </compound>
+  <compound refid="class_c_list" kind="class"><name>CList</name>
+    <member refid="class_c_list_1ae9cf98ee15185ec9bd6b90406ed5d462" kind="variable"><name>ITEM_NOT_FOUND</name></member>
+    <member refid="class_c_list_1acf80281f61954a16e9db5c40a6bcf219" kind="variable"><name>length</name></member>
+    <member refid="class_c_list_1acf38ce92d4c9f0f6d361f44e2c2320d9" kind="variable"><name>list</name></member>
+    <member refid="class_c_list_1aef8dde9eb267b41c6a6991975b998e86" kind="variable"><name>isUnique</name></member>
+    <member refid="class_c_list_1a2f1e788293ba01eab7bc3a4ae41f4a22" kind="variable"><name>max</name></member>
+    <member refid="class_c_list_1ab1c6c4d9f7b899ea9f242536b508e7bd" kind="variable"><name>position</name></member>
+    <member refid="class_c_list_1a0073f9fc19dc63c0d2c955fad7f4ff40" kind="function"><name>CList</name></member>
+    <member refid="class_c_list_1af685eaa041d4e23c082a3d50e90bc467" kind="function"><name>CList</name></member>
+    <member refid="class_c_list_1accc41151d3527359be101d6485656edd" kind="function"><name>CList</name></member>
+    <member refid="class_c_list_1ad65714bc3fbb6377abbd72f164dcf1ea" kind="function"><name>~CList</name></member>
+    <member refid="class_c_list_1a712209ac3e01f4cfff25e06118ce5da3" kind="function"><name>operator=</name></member>
+    <member refid="class_c_list_1abf0db531beaef38a54a0530938763227" kind="function"><name>At</name></member>
+    <member refid="class_c_list_1af0be5e3998954b24cb3f0a4abdef8d7f" kind="function"><name>Set</name></member>
+    <member refid="class_c_list_1a15df378f360c1051ad6db3b347981f8a" kind="function"><name>Insert</name></member>
+    <member refid="class_c_list_1a7562b261be933bc7c654371a7a9685a3" kind="function"><name>Remove</name></member>
+    <member refid="class_c_list_1aa6c96850f10b5fc32dc990954b0bba87" kind="function"><name>Get</name></member>
+    <member refid="class_c_list_1ab2df943c3d7a3f9046d02c5e22e0037c" kind="function"><name>AtEnd</name></member>
+    <member refid="class_c_list_1a8194fce5856cd00adc5bef2dbddad553" kind="function"><name>Next</name></member>
+    <member refid="class_c_list_1a454b57ead8f3447c2f85b79b0b9e4158" kind="function"><name>Reset</name></member>
+    <member refid="class_c_list_1a43c21dce8c5cdb4ef835b1d7053dd46f" kind="function"><name>CheckArrayBoundaries</name></member>
+    <member refid="class_c_list_1a130acd7b4afdc42b354483ccb9472024" kind="function"><name>ShiftArrayRight</name></member>
+    <member refid="class_c_list_1adc0a468428be0db41161fc8183426318" kind="function"><name>ShiftArrayLeft</name></member>
+    <member refid="class_c_list_1a4f5134e209d688006071261f99974293" kind="function"><name>LastOccurrenceIdx</name></member>
+    <member refid="class_c_list_1a608de7ef2a91d141b18b7d8c0dca0588" kind="function"><name>getmidpoint</name></member>
+  </compound>
+  <compound refid="class_c_owner" kind="class"><name>COwner</name>
+    <member refid="class_c_owner_1a5750a4019448a66ea7d1dd665f7f019c" kind="variable"><name>name</name></member>
+    <member refid="class_c_owner_1ae92710724c8314903d756148b9730d91" kind="variable"><name>surname</name></member>
+    <member refid="class_c_owner_1a7681b80a3657e087b20468868688b891" kind="variable"><name>cars</name></member>
+    <member refid="class_c_owner_1ace5fff6ad4702ca5994bf09582526607" kind="function"><name>COwner</name></member>
+    <member refid="class_c_owner_1a8f5e40d5c4bf62ff658722f54b8c17d5" kind="function"><name>COwner</name></member>
+    <member refid="class_c_owner_1a674448500b955becd3f14351d33df655" kind="function"><name>COwner</name></member>
+    <member refid="class_c_owner_1a444c4c2f422b4a9ac435309c7e515dd0" kind="function"><name>~COwner</name></member>
+    <member refid="class_c_owner_1a78df1d737a3b6c0d45f441f2a882ab62" kind="function"><name>operator=</name></member>
+    <member refid="class_c_owner_1a5208db7d0f4060512e486f78dd940ed4" kind="friend"><name>operator==</name></member>
+    <member refid="class_c_owner_1a852922935d8a83ebb8837aa28f89fabf" kind="friend"><name>operator!=</name></member>
+    <member refid="class_c_owner_1a1b6e700d8c4ba8583a96202883a8f80a" kind="friend"><name>operator&lt;</name></member>
+    <member refid="class_c_owner_1a8287f2d0df920f3657745f7eb043bc8e" kind="friend"><name>operator&gt;</name></member>
+    <member refid="class_c_owner_1a0e4a6b959ff9b8a5f8c4f157293d01a0" kind="friend"><name>operator&lt;=</name></member>
+    <member refid="class_c_owner_1a75a26630f5656fdcdf2b96111bfaec81" kind="friend"><name>operator&gt;=</name></member>
+    <member refid="class_c_owner_1a4a9921cd7527cb2e3add15e3bd85f235" kind="friend"><name>operator&lt;&lt;</name></member>
+  </compound>
+  <compound refid="class_c_owner_list" kind="class"><name>COwnerList</name>
+    <member refid="class_c_owner_list_1a1ea0e80113f8e5979d92f81c4ea79606" kind="function"><name>COwnerList</name></member>
+    <member refid="class_c_owner_list_1aa58c91235aa4ac1e427da4c799e8bfc4" kind="function"><name>COwnerList</name></member>
+    <member refid="class_c_owner_list_1a5621c33c481701a4ee7f885692b2fd2a" kind="function"><name>COwnerList</name></member>
+    <member refid="class_c_owner_list_1a4c817b0c72501e8cfa50229c7b6de0f7" kind="function"><name>Name</name></member>
+    <member refid="class_c_owner_list_1a245a11464d1d9756eaf1ae95a40fc4e3" kind="function"><name>Surname</name></member>
+  </compound>
+  <compound refid="class_c_register" kind="class"><name>CRegister</name>
+    <member refid="class_c_register_1af7174570759b05f78a523a3faf4f15eb" kind="variable"><name>cars</name></member>
+    <member refid="class_c_register_1a8de1f47e4ec1502490fa4d906702d587" kind="variable"><name>owners</name></member>
+    <member refid="class_c_register_1a5bc9952667a50fb11b99d2fc5af1f876" kind="variable"><name>sharedCarList</name></member>
+    <member refid="class_c_register_1ac7fb9c2738ffe96ff2f8a7b68aeec13d" kind="variable"><name>sharedOwnerList</name></member>
+    <member refid="class_c_register_1a0c5d3f48c6849cf0da37e853037ea59c" kind="function"><name>CRegister</name></member>
+    <member refid="class_c_register_1a1cf557a90bca24f1aaef9901530789b4" kind="function"><name>CRegister</name></member>
+    <member refid="class_c_register_1a5a25c629f29f352755749a050ca12c93" kind="function"><name>operator=</name></member>
+    <member refid="class_c_register_1a55dd1ed39a059bbdb5e28e8cfc34b9c7" kind="function"><name>GetOrCreateOwner</name></member>
+    <member refid="class_c_register_1a412e65e22ab4233ac5756dfdb626c962" kind="function"><name>AddCar</name></member>
+    <member refid="class_c_register_1a254c0c4675b1e9b1fbc8aa9b56fe5f9a" kind="function"><name>DelCar</name></member>
+    <member refid="class_c_register_1a49e99c92e2173c7617794559662f44ff" kind="function"><name>Transfer</name></member>
+    <member refid="class_c_register_1acc6ce979b5529951ceb8903f2619e8ed" kind="function"><name>ListCars</name></member>
+    <member refid="class_c_register_1af8eb13ed478bb242dd96d092b05bf666" kind="function"><name>CountCars</name></member>
+    <member refid="class_c_register_1a7b4c789bad0b453c36173d7a9b0c056e" kind="function"><name>ListOwners</name></member>
+    <member refid="class_c_register_1adac2bfb080a23281e6268b7179c4e786" kind="function"><name>CountOwners</name></member>
+    <member refid="class_c_register_1a2c62c5405fb0843db9d3e2f4980a22a1" kind="function"><name>CloneRegisterListsIfNeeded</name></member>
+  </compound>
+  <compound refid="class_c_sorted_list" kind="class"><name>CSortedList</name>
+    <member refid="class_c_sorted_list_1a9ad3e368b02b418f5319833a6b6b3905" kind="variable"><name>isUnique</name></member>
+    <member refid="class_c_sorted_list_1aa4be5a63e10b5958dc292ac2c8bbb0da" kind="variable"><name>pointers</name></member>
+    <member refid="class_c_sorted_list_1a4388cce4091df2ac2f4e5fa6f4554433" kind="function"><name>CSortedList</name></member>
+    <member refid="class_c_sorted_list_1a103c96de8a909bea392ef1c0083c4f7a" kind="function"><name>CSortedList</name></member>
+    <member refid="class_c_sorted_list_1a85a59eee784adc38e563a35cf57aa3e7" kind="function"><name>operator=</name></member>
+    <member refid="class_c_sorted_list_1a75ffec94c7ffdbfd3cde3566c5130f34" kind="function"><name>Find</name></member>
+    <member refid="class_c_sorted_list_1a0b81904275581eee3fa6e1b93f1b5ade" kind="function"><name>Insert</name></member>
+  </compound>
+  <compound refid="class_c_sorted_owner_list" kind="class"><name>CSortedOwnerList</name>
+    <member refid="class_c_sorted_owner_list_1a759f83c9dab4e24f3fd00bb7b2d4ba55" kind="function"><name>CSortedOwnerList</name></member>
+    <member refid="class_c_sorted_owner_list_1a5d882cc992d4ebaa388444077d31a529" kind="function"><name>CSortedOwnerList</name></member>
+    <member refid="class_c_sorted_owner_list_1a633dbee2d240a91e9bf751ac09321ddf" kind="function"><name>Name</name></member>
+    <member refid="class_c_sorted_owner_list_1ad39ed2459ef3ea7a4e8656a51ddf444e" kind="function"><name>Surname</name></member>
+    <member refid="class_c_sorted_owner_list_1aba21181f62e6d1d4813f9223c727f98b" kind="function"><name>operator=</name></member>
+  </compound>
+  <compound refid="class_c_string_funcs" kind="class"><name>CStringFuncs</name>
+    <member refid="class_c_string_funcs_1a68a198009565d2593b474414206fabf8" kind="function"><name>smallerThan</name></member>
+    <member refid="class_c_string_funcs_1ad7a5a52a9d65585d05266d9b1e7327f1" kind="function"><name>areEqual</name></member>
+    <member refid="class_c_string_funcs_1a7f7da0e09dc3adfcd89b97baa9d71637" kind="function"><name>makeCopy</name></member>
+  </compound>
+  <compound refid="class_index_out_of_boundary_exception" kind="class"><name>IndexOutOfBoundaryException</name>
+  </compound>
+  <compound refid="class_item_not_found_exception" kind="class"><name>ItemNotFoundException</name>
+  </compound>
+  <compound refid="class_owner_not_copied_exception" kind="class"><name>OwnerNotCopiedException</name>
+  </compound>
+  <compound refid="class_shared_ptr" kind="class"><name>SharedPtr</name>
+    <member refid="class_shared_ptr_1a069ec0c77003c29d6548bb258aad1486" kind="variable"><name>ptr</name></member>
+    <member refid="class_shared_ptr_1ad11083dd849ffb64a8c4b90dbcbea4f5" kind="variable"><name>refCounter</name></member>
+    <member refid="class_shared_ptr_1a3410dfca05f2433ab644a4deb8c999e7" kind="variable"><name>isZero</name></member>
+    <member refid="class_shared_ptr_1a8b08806704038d3625f602770ab86b5c" kind="function"><name>SharedPtr</name></member>
+    <member refid="class_shared_ptr_1a70fc6184e0a3c52e83b4f6c5936ac2e3" kind="function"><name>SharedPtr</name></member>
+    <member refid="class_shared_ptr_1a3122b763646a303fd28bf8df26402fdc" kind="function"><name>~SharedPtr</name></member>
+    <member refid="class_shared_ptr_1a34db5e6bef95ba285d107f11ee1aadd2" kind="function"><name>SharedPtr</name></member>
+    <member refid="class_shared_ptr_1a43d8e89da28ea2e56aa8dd33e28f75fa" kind="function"><name>operator=</name></member>
+    <member refid="class_shared_ptr_1a60c6ad99b5288512217fbe896328b663" kind="function"><name>operator=</name></member>
+    <member refid="class_shared_ptr_1a9e4c510e0479a7e99509579adbae1160" kind="function"><name>operator-&gt;</name></member>
+    <member refid="class_shared_ptr_1a5f9a5fcc8bec9890218b293e3e413732" kind="function"><name>operator-&gt;</name></member>
+    <member refid="class_shared_ptr_1abcfd27d9c2ceb24c93d927dd9aaf21dc" kind="function"><name>operator*</name></member>
+    <member refid="class_shared_ptr_1aaef77dda31a8ca98ea04e5e738c0ac3a" kind="function"><name>Detach</name></member>
+    <member refid="class_shared_ptr_1a5d4082ef174d44167ac8e7cc29e12a14" kind="function"><name>DetachIfShared</name></member>
+    <member refid="class_shared_ptr_1a732b497ad88d69f1cfa4a913dbcca901" kind="function"><name>operator==</name></member>
+    <member refid="class_shared_ptr_1ac49d9f2aaef6f9d20a31659e2bff393e" kind="function"><name>operator&lt;</name></member>
+    <member refid="class_shared_ptr_1a71738ccd2063846edf5f906f24f29fe1" kind="function"><name>operator&gt;</name></member>
+  </compound>
+  <compound refid="class_shared_ptr_factory" kind="class"><name>SharedPtrFactory</name>
+    <member refid="class_shared_ptr_factory_1ad3b043f0d02bbff973542a2fb6a76b46" kind="function"><name>create</name></member>
+  </compound>
+  <compound refid="struct_shared_ptr_ref_counter" kind="struct"><name>SharedPtrRefCounter</name>
+    <member refid="struct_shared_ptr_ref_counter_1a2c6b4dd51ac4d88ca8a8520f6cfa40bd" kind="variable"><name>references</name></member>
+    <member refid="struct_shared_ptr_ref_counter_1ac8e0b4aab067d7a9394223e4f51d8e6b" kind="function"><name>SharedPtrRefCounter</name></member>
+    <member refid="struct_shared_ptr_ref_counter_1ae742cdb0748407e7f8c1b8ce9193f3e0" kind="function"><name>SharedPtrRefCounter</name></member>
+  </compound>
+  <compound refid="namespacestd" kind="namespace"><name>std</name>
+  </compound>
+  <compound refid="assignment_8dox" kind="file"><name>assignment.dox</name>
+  </compound>
+  <compound refid="main_8cpp" kind="file"><name>main.cpp</name>
+    <member refid="main_8cpp_1a65eca761b7568023f4ebca615c3de6a2" kind="typedef"><name>CCarSPtr</name></member>
+    <member refid="main_8cpp_1a6acbeb608b9fce20120b1f5d987a08a7" kind="typedef"><name>CCarListSPtr</name></member>
+    <member refid="main_8cpp_1a6a9e99568b9c6742b234f2324f2d653a" kind="typedef"><name>COwnerSPtr</name></member>
+    <member refid="main_8cpp_1accc490e443c9a31b217442df90571be2" kind="typedef"><name>COwnerListSPtr</name></member>
+    <member refid="main_8cpp_1a86a47e5fcc66ea32e3648859321e71da" kind="typedef"><name>CSortedOwnerListSPtr</name></member>
+    <member refid="main_8cpp_1a840291bc02cba5474a4cb46a9b9566fe" kind="function"><name>main</name></member>
+  </compound>
+  <compound refid="mainpage_8dox" kind="file"><name>mainpage.dox</name>
+  </compound>
+  <compound refid="assignment" kind="page"><name>assignment</name>
+  </compound>
+  <compound refid="dir_68267d1309a1af8e8297ef4c3efbcdba" kind="dir"><name>src</name>
+  </compound>
+  <compound refid="indexpage" kind="page"><name>index</name>
+  </compound>
+</doxygenindex>

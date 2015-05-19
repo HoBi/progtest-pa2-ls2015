@@ -1,0 +1,541 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.9.1">
+  <compounddef id="class_c_list" kind="class" language="C++" prot="public">
+    <compoundname>CList</compoundname>
+    <derivedcompoundref refid="class_c_sorted_list" prot="public" virt="non-virtual">CSortedList&lt; T &gt;</derivedcompoundref>
+    <templateparamlist>
+      <param>
+        <type>class</type>
+        <declname>T</declname>
+        <defname>T</defname>
+      </param>
+    </templateparamlist>
+      <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="class_c_list_1ae9cf98ee15185ec9bd6b90406ed5d462" prot="public" static="yes" mutable="no">
+        <type>const int</type>
+        <definition>const int CList&lt; T &gt;::ITEM_NOT_FOUND</definition>
+        <argsstring></argsstring>
+        <name>ITEM_NOT_FOUND</name>
+        <initializer>= -1</initializer>
+        <briefdescription>
+<para>Item not found constant. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" line="250" column="1" bodyfile="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" bodystart="250" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_c_list_1acf80281f61954a16e9db5c40a6bcf219" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int CList&lt; T &gt;::length</definition>
+        <argsstring></argsstring>
+        <name>length</name>
+        <briefdescription>
+<para>List length. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" line="252" column="1" bodyfile="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" bodystart="252" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_c_list_1acf38ce92d4c9f0f6d361f44e2c2320d9" prot="protected" static="no" mutable="no">
+        <type>T *</type>
+        <definition>T* CList&lt; T &gt;::list</definition>
+        <argsstring></argsstring>
+        <name>list</name>
+        <briefdescription>
+<para>List of items. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" line="383" column="1" bodyfile="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" bodystart="383" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_c_list_1aef8dde9eb267b41c6a6991975b998e86" prot="protected" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool CList&lt; T &gt;::isUnique</definition>
+        <argsstring></argsstring>
+        <name>isUnique</name>
+        <briefdescription>
+<para>Unique flag. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" line="385" column="1" bodyfile="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" bodystart="385" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_c_list_1a2f1e788293ba01eab7bc3a4ae41f4a22" prot="protected" static="no" mutable="no">
+        <type>int</type>
+        <definition>int CList&lt; T &gt;::max</definition>
+        <argsstring></argsstring>
+        <name>max</name>
+        <briefdescription>
+<para>Actual list maximum size (dynamic) </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" line="387" column="1" bodyfile="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" bodystart="387" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_c_list_1ab1c6c4d9f7b899ea9f242536b508e7bd" prot="protected" static="no" mutable="no">
+        <type>int</type>
+        <definition>int CList&lt; T &gt;::position</definition>
+        <argsstring></argsstring>
+        <name>position</name>
+        <briefdescription>
+<para>Iterator actual position. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" line="389" column="1" bodyfile="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" bodystart="389" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_c_list_1a0073f9fc19dc63c0d2c955fad7f4ff40" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>CList&lt; T &gt;::CList</definition>
+        <argsstring>()</argsstring>
+        <name>CList</name>
+        <briefdescription>
+<para>Implicit constructor. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" line="255" column="1" bodyfile="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" bodystart="255" bodyend="261"/>
+      </memberdef>
+      <memberdef kind="function" id="class_c_list_1af685eaa041d4e23c082a3d50e90bc467" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>CList&lt; T &gt;::CList</definition>
+        <argsstring>(int size)</argsstring>
+        <name>CList</name>
+        <param>
+          <type>int</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+<para>Constructor. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>list size </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" line="267" column="1" bodyfile="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" bodystart="267" bodyend="273"/>
+      </memberdef>
+      <memberdef kind="function" id="class_c_list_1accc41151d3527359be101d6485656edd" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>CList&lt; T &gt;::CList</definition>
+        <argsstring>(const CList &amp;list)</argsstring>
+        <name>CList</name>
+        <param>
+          <type>const <ref refid="class_c_list" kindref="compound">CList</ref> &amp;</type>
+          <declname>list</declname>
+        </param>
+        <briefdescription>
+<para>Copy constructor. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" line="276" column="1" bodyfile="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" bodystart="276" bodyend="282"/>
+      </memberdef>
+      <memberdef kind="function" id="class_c_list_1ad65714bc3fbb6377abbd72f164dcf1ea" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type></type>
+        <definition>virtual CList&lt; T &gt;::~CList</definition>
+        <argsstring>()</argsstring>
+        <name>~CList</name>
+        <briefdescription>
+<para>Destructor. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" line="285" column="1" bodyfile="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" bodystart="285" bodyend="288"/>
+      </memberdef>
+      <memberdef kind="function" id="class_c_list_1a712209ac3e01f4cfff25e06118ce5da3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="class_c_list" kindref="compound">CList</ref> &amp;</type>
+        <definition>virtual CList&amp; CList&lt; T &gt;::operator=</definition>
+        <argsstring>(const CList &amp;list)</argsstring>
+        <name>operator=</name>
+        <param>
+          <type>const <ref refid="class_c_list" kindref="compound">CList</ref> &amp;</type>
+          <declname>list</declname>
+        </param>
+        <briefdescription>
+<para>Assignment operator. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" line="291" column="1" bodyfile="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" bodystart="291" bodyend="294"/>
+      </memberdef>
+      <memberdef kind="function" id="class_c_list_1abf0db531beaef38a54a0530938763227" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>T</type>
+        <definition>T CList&lt; T &gt;::At</definition>
+        <argsstring>(int index) const </argsstring>
+        <name>At</name>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+<para>Returns item from list at specified location. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" line="300" column="1" bodyfile="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" bodystart="300" bodyend="306"/>
+      </memberdef>
+      <memberdef kind="function" id="class_c_list_1af0be5e3998954b24cb3f0a4abdef8d7f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void CList&lt; T &gt;::Set</definition>
+        <argsstring>(int index, T item)</argsstring>
+        <name>Set</name>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type>T</type>
+          <declname>item</declname>
+        </param>
+        <briefdescription>
+<para>Set value of list item on specified index. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>index </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>item</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>new value </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" line="313" column="1" bodyfile="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" bodystart="313" bodyend="319"/>
+      </memberdef>
+      <memberdef kind="function" id="class_c_list_1a15df378f360c1051ad6db3b347981f8a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>virtual void CList&lt; T &gt;::Insert</definition>
+        <argsstring>(T item, int pos)</argsstring>
+        <name>Insert</name>
+        <param>
+          <type>T</type>
+          <declname>item</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>pos</declname>
+        </param>
+        <briefdescription>
+<para>Insert item at specified position. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>item</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Item for insertion </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>pos</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Position of insert </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" line="326" column="1" bodyfile="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" bodystart="326" bodyend="333"/>
+      </memberdef>
+      <memberdef kind="function" id="class_c_list_1a7562b261be933bc7c654371a7a9685a3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void CList&lt; T &gt;::Remove</definition>
+        <argsstring>(int pos)</argsstring>
+        <name>Remove</name>
+        <param>
+          <type>int</type>
+          <declname>pos</declname>
+        </param>
+        <briefdescription>
+<para>Remove item at specified position. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pos</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Position for remove </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" line="339" column="1" bodyfile="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" bodystart="339" bodyend="345"/>
+      </memberdef>
+      <memberdef kind="function" id="class_c_list_1aa6c96850f10b5fc32dc990954b0bba87" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>T</type>
+        <definition>T CList&lt; T &gt;::Get</definition>
+        <argsstring>(void) const </argsstring>
+        <name>Get</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+<para>Gets iterated item. </para>        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>end </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" line="351" column="1" bodyfile="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" bodystart="351" bodyend="354"/>
+      </memberdef>
+      <memberdef kind="function" id="class_c_list_1ab2df943c3d7a3f9046d02c5e22e0037c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool CList&lt; T &gt;::AtEnd</definition>
+        <argsstring>(void) const </argsstring>
+        <name>AtEnd</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+<para>Tells if we are at the end of the list. </para>        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>end </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" line="360" column="1" bodyfile="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" bodystart="360" bodyend="363"/>
+      </memberdef>
+      <memberdef kind="function" id="class_c_list_1a8194fce5856cd00adc5bef2dbddad553" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void CList&lt; T &gt;::Next</definition>
+        <argsstring>(void)</argsstring>
+        <name>Next</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+<para>Iterates next item in list. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" line="368" column="1" bodyfile="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" bodystart="368" bodyend="371"/>
+      </memberdef>
+      <memberdef kind="function" id="class_c_list_1a454b57ead8f3447c2f85b79b0b9e4158" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void CList&lt; T &gt;::Reset</definition>
+        <argsstring>(void)</argsstring>
+        <name>Reset</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+<para>Reset iterator to starting position. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" line="376" column="1" bodyfile="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" bodystart="376" bodyend="379"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_c_list_1a43c21dce8c5cdb4ef835b1d7053dd46f" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void CList&lt; T &gt;::CheckArrayBoundaries</definition>
+        <argsstring>()</argsstring>
+        <name>CheckArrayBoundaries</name>
+        <briefdescription>
+<para>Checks if there is still enough room for storing more items in list. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" line="394" column="1" bodyfile="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" bodystart="394" bodyend="408"/>
+      </memberdef>
+      <memberdef kind="function" id="class_c_list_1a130acd7b4afdc42b354483ccb9472024" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void CList&lt; T &gt;::ShiftArrayRight</definition>
+        <argsstring>(int from)</argsstring>
+        <name>ShiftArrayRight</name>
+        <param>
+          <type>int</type>
+          <declname>from</declname>
+        </param>
+        <briefdescription>
+<para>Shifts array by one, from specified index to the end, by one item to the right. </para>        </briefdescription>
+        <detaileddescription>
+<para>e.g.: [ 1, 2, 3, 4, 6, 12 ] shifted from index 3 will make [ 1, 2, 3, 4, 4, 6, 12 ] <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>from</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Starting index of shift </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" line="415" column="1" bodyfile="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" bodystart="415" bodyend="423"/>
+      </memberdef>
+      <memberdef kind="function" id="class_c_list_1adc0a468428be0db41161fc8183426318" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void CList&lt; T &gt;::ShiftArrayLeft</definition>
+        <argsstring>(int from)</argsstring>
+        <name>ShiftArrayLeft</name>
+        <param>
+          <type>int</type>
+          <declname>from</declname>
+        </param>
+        <briefdescription>
+<para>Shifts array by one, from specified index to the end, by one item to the left. </para>        </briefdescription>
+        <detaileddescription>
+<para>e.g.: [ 1, 2, 3, 4, 6, 12 ] shifted from index 3 will make [ 1, 2, 4, 6, 12 ] <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>from</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Starting index of shift </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" line="430" column="1" bodyfile="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" bodystart="430" bodyend="438"/>
+      </memberdef>
+      <memberdef kind="function" id="class_c_list_1a4f5134e209d688006071261f99974293" prot="protected" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int CList&lt; T &gt;::LastOccurrenceIdx</definition>
+        <argsstring>(int indexFrom) const </argsstring>
+        <name>LastOccurrenceIdx</name>
+        <param>
+          <type>int</type>
+          <declname>indexFrom</declname>
+        </param>
+        <briefdescription>
+<para>Returns last occurrence of duplicate items. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>indexFrom</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Starting index for searching the last occurence </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" line="444" column="1" bodyfile="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" bodystart="444" bodyend="454"/>
+      </memberdef>
+      <memberdef kind="function" id="class_c_list_1a608de7ef2a91d141b18b7d8c0dca0588" prot="protected" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int CList&lt; T &gt;::getmidpoint</definition>
+        <argsstring>(int from, int to) const </argsstring>
+        <name>getmidpoint</name>
+        <param>
+          <type>int</type>
+          <declname>from</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>to</declname>
+        </param>
+        <briefdescription>
+<para>Returns midpoint, used for binary search. </para>        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>midpoint </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" line="460" column="1" bodyfile="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" bodystart="460" bodyend="463"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Simple list. </para>    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="12">
+        <label>CSortedList&lt; T &gt;</label>
+        <link refid="class_c_sorted_list"/>
+        <childnode refid="11" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>CList&lt; T &gt;</label>
+        <link refid="class_c_list"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="14">
+        <label>T</label>
+      </node>
+      <node id="13">
+        <label>CList&lt; T &gt;</label>
+        <link refid="class_c_list"/>
+        <childnode refid="14" relation="usage">
+          <edgelabel>list</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" line="247" column="1" bodyfile="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" bodystart="246" bodyend="464"/>
+    <listofallmembers>
+      <member refid="class_c_list_1abf0db531beaef38a54a0530938763227" prot="public" virt="non-virtual"><scope>CList</scope><name>At</name></member>
+      <member refid="class_c_list_1ab2df943c3d7a3f9046d02c5e22e0037c" prot="public" virt="non-virtual"><scope>CList</scope><name>AtEnd</name></member>
+      <member refid="class_c_list_1a43c21dce8c5cdb4ef835b1d7053dd46f" prot="protected" virt="non-virtual"><scope>CList</scope><name>CheckArrayBoundaries</name></member>
+      <member refid="class_c_list_1a0073f9fc19dc63c0d2c955fad7f4ff40" prot="public" virt="non-virtual"><scope>CList</scope><name>CList</name></member>
+      <member refid="class_c_list_1af685eaa041d4e23c082a3d50e90bc467" prot="public" virt="non-virtual"><scope>CList</scope><name>CList</name></member>
+      <member refid="class_c_list_1accc41151d3527359be101d6485656edd" prot="public" virt="non-virtual"><scope>CList</scope><name>CList</name></member>
+      <member refid="class_c_list_1aa6c96850f10b5fc32dc990954b0bba87" prot="public" virt="non-virtual"><scope>CList</scope><name>Get</name></member>
+      <member refid="class_c_list_1a608de7ef2a91d141b18b7d8c0dca0588" prot="protected" virt="non-virtual"><scope>CList</scope><name>getmidpoint</name></member>
+      <member refid="class_c_list_1a15df378f360c1051ad6db3b347981f8a" prot="public" virt="virtual"><scope>CList</scope><name>Insert</name></member>
+      <member refid="class_c_list_1aef8dde9eb267b41c6a6991975b998e86" prot="protected" virt="non-virtual"><scope>CList</scope><name>isUnique</name></member>
+      <member refid="class_c_list_1ae9cf98ee15185ec9bd6b90406ed5d462" prot="public" virt="non-virtual"><scope>CList</scope><name>ITEM_NOT_FOUND</name></member>
+      <member refid="class_c_list_1a4f5134e209d688006071261f99974293" prot="protected" virt="non-virtual"><scope>CList</scope><name>LastOccurrenceIdx</name></member>
+      <member refid="class_c_list_1acf80281f61954a16e9db5c40a6bcf219" prot="public" virt="non-virtual"><scope>CList</scope><name>length</name></member>
+      <member refid="class_c_list_1acf38ce92d4c9f0f6d361f44e2c2320d9" prot="protected" virt="non-virtual"><scope>CList</scope><name>list</name></member>
+      <member refid="class_c_list_1a2f1e788293ba01eab7bc3a4ae41f4a22" prot="protected" virt="non-virtual"><scope>CList</scope><name>max</name></member>
+      <member refid="class_c_list_1a8194fce5856cd00adc5bef2dbddad553" prot="public" virt="non-virtual"><scope>CList</scope><name>Next</name></member>
+      <member refid="class_c_list_1a712209ac3e01f4cfff25e06118ce5da3" prot="public" virt="virtual"><scope>CList</scope><name>operator=</name></member>
+      <member refid="class_c_list_1ab1c6c4d9f7b899ea9f242536b508e7bd" prot="protected" virt="non-virtual"><scope>CList</scope><name>position</name></member>
+      <member refid="class_c_list_1a7562b261be933bc7c654371a7a9685a3" prot="public" virt="non-virtual"><scope>CList</scope><name>Remove</name></member>
+      <member refid="class_c_list_1a454b57ead8f3447c2f85b79b0b9e4158" prot="public" virt="non-virtual"><scope>CList</scope><name>Reset</name></member>
+      <member refid="class_c_list_1af0be5e3998954b24cb3f0a4abdef8d7f" prot="public" virt="non-virtual"><scope>CList</scope><name>Set</name></member>
+      <member refid="class_c_list_1adc0a468428be0db41161fc8183426318" prot="protected" virt="non-virtual"><scope>CList</scope><name>ShiftArrayLeft</name></member>
+      <member refid="class_c_list_1a130acd7b4afdc42b354483ccb9472024" prot="protected" virt="non-virtual"><scope>CList</scope><name>ShiftArrayRight</name></member>
+      <member refid="class_c_list_1ad65714bc3fbb6377abbd72f164dcf1ea" prot="public" virt="virtual"><scope>CList</scope><name>~CList</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

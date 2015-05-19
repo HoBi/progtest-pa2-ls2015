@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.9.1">
+  <compounddef id="class_c_string_funcs" kind="class" language="C++" prot="public">
+    <compoundname>CStringFuncs</compoundname>
+      <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_c_string_funcs_1a68a198009565d2593b474414206fabf8" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool CStringFuncs::smallerThan</definition>
+        <argsstring>(const char *lhs, const char *rhs)</argsstring>
+        <name>smallerThan</name>
+        <param>
+          <type>const char *</type>
+          <declname>lhs</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>rhs</declname>
+        </param>
+        <briefdescription>
+<para>Checks if lhs is smaller than rhs. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>lhs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>left side </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>rhs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>right side </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" line="213" column="1" bodyfile="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" bodystart="213" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="class_c_string_funcs_1ad7a5a52a9d65585d05266d9b1e7327f1" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool CStringFuncs::areEqual</definition>
+        <argsstring>(const char *lhs, const char *rhs)</argsstring>
+        <name>areEqual</name>
+        <param>
+          <type>const char *</type>
+          <declname>lhs</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>rhs</declname>
+        </param>
+        <briefdescription>
+<para>Checks if the specified strings are equal. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>lhs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>left side </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>rhs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>right side </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" line="224" column="1" bodyfile="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" bodystart="224" bodyend="228"/>
+      </memberdef>
+      <memberdef kind="function" id="class_c_string_funcs_1a7f7da0e09dc3adfcd89b97baa9d71637" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>char *</type>
+        <definition>static char* CStringFuncs::makeCopy</definition>
+        <argsstring>(const char *from)</argsstring>
+        <name>makeCopy</name>
+        <param>
+          <type>const char *</type>
+          <declname>from</declname>
+        </param>
+        <briefdescription>
+<para>Make deep copy of string. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>from</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>source </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" line="234" column="1" bodyfile="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" bodystart="234" bodyend="240"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Utilities for string manipulation. </para>    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" line="206" column="1" bodyfile="D:/progtest-pa2-ls2015/PA2/task-4-cregister/src/main.cpp" bodystart="205" bodyend="241"/>
+    <listofallmembers>
+      <member refid="class_c_string_funcs_1ad7a5a52a9d65585d05266d9b1e7327f1" prot="public" virt="non-virtual"><scope>CStringFuncs</scope><name>areEqual</name></member>
+      <member refid="class_c_string_funcs_1a7f7da0e09dc3adfcd89b97baa9d71637" prot="public" virt="non-virtual"><scope>CStringFuncs</scope><name>makeCopy</name></member>
+      <member refid="class_c_string_funcs_1a68a198009565d2593b474414206fabf8" prot="public" virt="non-virtual"><scope>CStringFuncs</scope><name>smallerThan</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>
