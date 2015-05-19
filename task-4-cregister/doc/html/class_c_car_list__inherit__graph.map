@@ -1,0 +1,4 @@
+<map id="CCarList" name="CCarList">
+<area shape="rect" id="node2" href="$class_c_sorted_list.html" title="{CSortedList\&lt; CCarSPtr \&gt;\n|# isUnique\l# pointers\l|+ CSortedList()\l+ CSortedList()\l+ operator=()\l+ Find()\l+ Insert()\l}" alt="" coords="8,453,177,604"/>
+<area shape="rect" id="node3" href="$class_c_list.html" title="{CList\&lt; CCarSPtr \&gt;\n|+ length\l+ ITEM_NOT_FOUND\l# list\l# isUnique\l# max\l# position\l|+ CList()\l+ CList()\l+ CList()\l+ ~CList()\l+ operator=()\l+ At()\l+ Set()\l+ Insert()\l+ Remove()\l+ Get()\l+ AtEnd()\l+ Next()\l+ Reset()\l# CheckArrayBoundaries()\l# ShiftArrayRight()\l# ShiftArrayLeft()\l# LastOccurrenceIdx()\l# getmidpoint()\l}" alt="" coords="5,5,180,405"/>
+</map>

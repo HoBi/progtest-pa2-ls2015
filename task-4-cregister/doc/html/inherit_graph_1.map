@@ -1,0 +1,5 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$class_c_list.html" title="CList\&lt; CCarSPtr \&gt;" alt="" coords="5,5,136,32"/>
+<area shape="rect" id="node2" href="$class_c_sorted_list.html" title="CSortedList\&lt; CCarSPtr \&gt;" alt="" coords="184,5,353,32"/>
+<area shape="rect" id="node3" href="$class_c_car_list.html" title="List of cars with iterator. " alt="" coords="401,5,473,32"/>
+</map>

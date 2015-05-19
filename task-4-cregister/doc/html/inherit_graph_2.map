@@ -1,0 +1,6 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$class_c_list.html" title="CList\&lt; COwnerSPtr \&gt;" alt="" coords="5,31,153,57"/>
+<area shape="rect" id="node2" href="$class_c_owner_list.html" title="List of car owners (in correct historical sorting) " alt="" coords="250,5,339,32"/>
+<area shape="rect" id="node3" href="$class_c_sorted_list.html" title="CSortedList\&lt; COwnerSPtr \&gt;" alt="" coords="201,56,388,83"/>
+<area shape="rect" id="node4" href="$class_c_sorted_owner_list.html" title="List of car owners (in correct historical sorting) " alt="" coords="436,56,563,83"/>
+</map>
