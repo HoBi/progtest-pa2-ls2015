@@ -1,4 +1,0 @@
-<map id="CCar" name="CCar">
-<area shape="rect" id="node2" href="$class_shared_ptr.html" title="{SharedPtr\&lt; COwnerList \&gt;\n||+ SharedPtr()\l+ SharedPtr()\l+ SharedPtr()\l+ ~SharedPtr()\l+ operator=()\l+ operator=()\l+ operator&#45;\&gt;()\l+ operator&#45;\&gt;()\l+ operator*()\l+ Detach()\l+ DetachIfShared()\l+ operator==()\l+ operator\&lt;()\l+ operator\&gt;()\l}" alt="" coords="5,5,176,273"/>
-<area shape="rect" id="node3" href="$class_shared_ptr.html" title="{SharedPtr\&lt; COwner \&gt;\n||+ SharedPtr()\l+ SharedPtr()\l+ SharedPtr()\l+ ~SharedPtr()\l+ operator=()\l+ operator=()\l+ operator&#45;\&gt;()\l+ operator&#45;\&gt;()\l+ operator*()\l+ Detach()\l+ DetachIfShared()\l+ operator==()\l+ operator\&lt;()\l+ operator\&gt;()\l}" alt="" coords="201,5,351,273"/>
-</map>
