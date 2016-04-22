@@ -115,7 +115,6 @@ public:
         {
             // Dequeue
             CNode<_T, _E> *node = searchQueue.front();
-            searchQueue.pop();
 
             #ifdef DEBUG
                 cout << " -> " << node->content << endl;
@@ -142,7 +141,7 @@ public:
             // Expand
             for ( CEdge<_T, _E> *edge : node->edges )
             {
-                CNode<_T, _E> *other = edge->node1 == node ? edge->node2 : edge->node1;
+                CNode<_T, _E> *other = edge->node1 != node ? edge->node2 : edge->node1;
                 if ( filter( edge->properties ) == true && explored.count( other->content ) == 0 )
                 {
                     #ifdef DEBUG
